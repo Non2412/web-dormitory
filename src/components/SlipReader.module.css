@@ -1,0 +1,379 @@
+/* Container & Layout */
+.container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem 0;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.wrapper {
+  width: 100%;
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.row {
+  display: flex;
+  justify-content: center;
+}
+
+.col {
+  width: 100%;
+  max-width: 66.666667%;
+}
+
+@media (max-width: 992px) {
+  .col {
+    max-width: 100%;
+  }
+}
+
+/* Card */
+.card {
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.cardBody {
+  padding: 2rem;
+}
+
+@media (min-width: 768px) {
+  .cardBody {
+    padding: 3rem;
+  }
+}
+
+/* Typography */
+.title {
+  text-align: center;
+  margin-bottom: 0.5rem;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.subtitle {
+  text-align: center;
+  color: #6b7280;
+  margin-bottom: 2rem;
+}
+
+/* Dropzone */
+.dropzone {
+  border: 3px dashed #667eea;
+  border-radius: 1.5rem;
+  padding: 3rem;
+  text-align: center;
+  cursor: pointer;
+  background-color: #f8f9ff;
+  transition: all 0.3s ease;
+}
+
+.dropzone:hover {
+  background-color: #e8ebff;
+}
+
+.dropzoneDragging {
+  border-color: #667eea;
+  background-color: #e8ebff;
+}
+
+.dropzoneIcon {
+  font-size: 4em;
+  margin-bottom: 1rem;
+}
+
+.dropzoneText {
+  color: #667eea;
+  font-weight: 600;
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.dropzoneSubtext {
+  color: #6b7280;
+}
+
+.fileInput {
+  display: none;
+}
+
+/* Preview Section */
+.previewSection {
+  margin-top: 1.5rem;
+}
+
+.imagePreview {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.previewImage {
+  max-width: 100%;
+  max-height: 400px;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.hiddenCanvas {
+  display: none;
+}
+
+/* Progress */
+.progressCard {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.progressTitle {
+  color: #667eea;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+.progressBar {
+  height: 8px;
+  background-color: #e5e7eb;
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  transition: width 0.3s ease;
+}
+
+.progressPercent {
+  text-align: center;
+  color: #6b7280;
+  margin-top: 0.5rem;
+}
+
+/* Error Alert */
+.errorAlert {
+  background-color: #fee;
+  border: 1px solid #fcc;
+  color: #c00;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Data Card (OCR) */
+.dataCard {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.dataCardTitle {
+  border-bottom: 3px solid #667eea;
+  padding-bottom: 0.75rem;
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.dataItem {
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background-color: #f9fafb;
+  border-radius: 0.5rem;
+  border-left: 4px solid #667eea;
+}
+
+.dataLabel {
+  color: #6b7280;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 0.25rem;
+  font-size: 0.875rem;
+}
+
+.dataValue {
+  font-size: 1rem;
+}
+
+.dataValueLarge {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #667eea;
+}
+
+.badge {
+  background-color: #10b981;
+  color: white;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  font-family: monospace;
+  font-size: 0.875rem;
+}
+
+/* OCR Text Section */
+.ocrTextSection {
+  margin-top: 1rem;
+}
+
+.toggleButton {
+  background: none;
+  border: none;
+  color: #667eea;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+  font-size: 1rem;
+}
+
+.ocrText {
+  background-color: #f9fafb;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  color: #6b7280;
+  max-height: 200px;
+  overflow: auto;
+  white-space: pre-wrap;
+}
+
+/* QR Card */
+.qrCard {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.qrCardTitle {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.qrItem {
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.qrLabel {
+  display: block;
+  margin-bottom: 0.25rem;
+  opacity: 0.9;
+  font-size: 0.875rem;
+}
+
+.qrValue {
+  font-size: 1rem;
+}
+
+.qrValueLarge {
+  font-size: 1.875rem;
+  font-weight: bold;
+}
+
+.qrBadge {
+  background-color: white;
+  color: #667eea;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  font-family: monospace;
+  font-size: 0.875rem;
+}
+
+/* JSON Card */
+.jsonCard {
+  background-color: #1f2937;
+  color: white;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.jsonHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.jsonTitle {
+  margin: 0;
+  color: #4ec9b0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.copyButton {
+  background-color: #667eea;
+  color: white;
+  border: none;
+  padding: 0.375rem 0.75rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition: background-color 0.2s;
+}
+
+.copyButton:hover {
+  background-color: #5568d3;
+}
+
+.copyButtonSuccess {
+  background-color: #10b981;
+}
+
+.copyButtonSuccess:hover {
+  background-color: #059669;
+}
+
+.jsonContent {
+  background-color: #000;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  color: white;
+  margin: 0;
+  font-size: 0.875rem;
+  max-height: 400px;
+  overflow: auto;
+  white-space: pre-wrap;
+}
+
+/* Reset Section */
+.resetSection {
+  text-align: center;
+}
+
+.resetButton {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 0.75rem 2rem;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 1.125rem;
+  font-weight: 600;
+  transition: transform 0.2s;
+}
+
+.resetButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
