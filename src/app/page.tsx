@@ -15,11 +15,11 @@ export default function Home() {
           </div>
           <div className={styles.navLinks}>
             <a href="#home" className={styles.navLink}>Home</a>
-            <a href="#book" className={styles.navLink}>Book Online</a>
+            <a href="#book" className={styles.navLink}>รายการห้องพัก</a>
             <a href="#about" className={styles.navLink}>About</a>
             <a href="#contact" className={styles.navLink}>Contact</a>
-            <a href="#contact" className={styles.loginButton}>
-              ติดต่อเรา
+            <a href="#login" className={styles.loginButton}>
+              Log In
             </a>
           </div>
         </div>
