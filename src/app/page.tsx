@@ -18,9 +18,9 @@ export default function Home() {
             <a href="#book" className={styles.navLink}>รายการห้องพัก</a>
             <a href="#about" className={styles.navLink}>About</a>
             <a href="#contact" className={styles.navLink}>Contact</a>
-            <a href="#login" className={styles.loginButton}>
+            <Link href="/login" className={styles.loginButton}>
               Log In
-            </a>
+            </Link>
           </div>
         </div>
       </nav>
