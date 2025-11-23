@@ -2,9 +2,11 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import styles from "./signup.module.css";
 
 export default function SignUp() {
+  const router = useRouter();
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -12,6 +14,7 @@ export default function SignUp() {
     password: "",
     confirmPassword: "",
   });
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -20,7 +23,7 @@ export default function SignUp() {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (formData.password !== formData.confirmPassword) {
@@ -28,8 +31,47 @@ export default function SignUp() {
       return;
     }
     
-    // Handle signup logic here
-    console.log("Sign up with:", formData);
+    setIsLoading(true);
+    
+    // เก็บข้อมูลการสมัครใน localStorage
+    const userData = {
+      fullName: formData.fullName,
+      email: formData.email,
+      phone: formData.phone,
+      password: formData.password,
+      createdAt: new Date().toISOString(),
+    };
+    
+    try {
+      // เก็บข้อมูลผู้ใช้
+      const existingUsers = localStorage.getItem('users');
+      const users = existingUsers ? JSON.parse(existingUsers) : [];
+      
+      // ตรวจสอบว่าอีเมลซ้ำหรือไม่
+      const emailExists = users.some((user: any) => user.email === formData.email);
+      if (emailExists) {
+        alert("อีเมลนี้มีอยู่ในระบบแล้ว!");
+        setIsLoading(false);
+        return;
+      }
+      
+      // เพิ่มผู้ใช้ใหม่
+      users.push(userData);
+      localStorage.setItem('users', JSON.stringify(users));
+      
+      console.log("Sign up success:", userData);
+      alert("สมัครสมาชิกสำเร็จ! กำลังไปหน้าเข้าสู่ระบบ...");
+      
+      // ไปหน้า login หลังจาก 1 วินาที
+      setTimeout(() => {
+        router.push('/login');
+      }, 1000);
+      
+    } catch (error) {
+      console.error("Error saving user data:", error);
+      alert("เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง");
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -101,8 +143,8 @@ export default function SignUp() {
             />
           </div>
 
-          <button type="submit" className={styles.signupButton}>
-            สมัครสมาชิก
+          <button type="submit" className={styles.signupButton} disabled={isLoading}>
+            {isLoading ? "กำลังสมัครสมาชิก..." : "สมัครสมาชิก"}
           </button>
 
           <div className={styles.loginText}>

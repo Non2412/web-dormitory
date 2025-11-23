@@ -140,6 +140,12 @@
   transform: translateY(-1px);
 }
 
+.signupButton:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
 .loginText {
   text-align: center;
   color: #666;
