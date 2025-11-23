@@ -18,9 +18,9 @@ export default function Home() {
             <a href="#book" className={styles.navLink}>รายการห้องพัก</a>
             <a href="#about" className={styles.navLink}>About</a>
             <a href="#contact" className={styles.navLink}>Contact</a>
-            <a href="#login" className={styles.loginButton}>
+            <Link href="/login" className={styles.loginButton}>
               Log In
-            </a>
+            </Link>
           </div>
         </div>
       </nav>
@@ -38,9 +38,9 @@ export default function Home() {
               Be Bold. Design Your Life.
             </p>
             <div className={styles.heroButtons}>
-              <a href="#book" className={styles.primaryButton}>
+              <Link href="/login" className={styles.primaryButton}>
                 จองห้องพัก
-              </a>
+              </Link>
               <a href="#about" className={styles.secondaryButton}>
                 เรียนรู้เพิ่มเติม
               </a>
