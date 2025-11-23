@@ -7,12 +7,12 @@
   padding: 2rem;
 }
 
-.loginCard {
+.signupCard {
   background: white;
   border-radius: 30px;
   overflow: hidden;
   width: 100%;
-  max-width: 400px;
+  max-width: 450px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
   animation: slideUp 0.5s ease-out;
 }
@@ -47,18 +47,25 @@
 }
 
 .header h1 {
-  margin: 0;
+  margin: 0 0 0.5rem 0;
   color: white;
   font-size: 2.5rem;
   font-weight: 700;
   letter-spacing: 2px;
 }
 
+.header p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1rem;
+  font-weight: 500;
+}
+
 .form {
-  padding: 2.5rem 2rem;
+  padding: 2rem;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1.2rem;
 }
 
 .inputGroup {
@@ -80,8 +87,7 @@
 
 .input::placeholder {
   color: #667eea;
-  font-weight: 600;
-  letter-spacing: 1px;
+  font-weight: 500;
   transition: color 0.3s ease;
 }
 
@@ -110,7 +116,7 @@
   color: white;
 }
 
-.loginButton {
+.signupButton {
   width: 100%;
   padding: 1rem;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -125,30 +131,30 @@
   margin-top: 0.5rem;
 }
 
-.loginButton:hover {
+.signupButton:hover {
   transform: translateY(-3px);
   box-shadow: 0 12px 30px rgba(102, 126, 234, 0.4);
 }
 
-.loginButton:active {
+.signupButton:active {
   transform: translateY(-1px);
 }
 
-.signupText {
+.loginText {
   text-align: center;
   color: #666;
   font-size: 0.95rem;
-  margin-top: 1rem;
+  margin-top: 0.5rem;
 }
 
-.signupText a {
+.loginText a {
   color: #667eea;
   text-decoration: none;
   font-weight: 700;
   transition: color 0.3s ease;
 }
 
-.signupText a:hover {
+.loginText a:hover {
   color: #764ba2;
   text-decoration: underline;
 }
@@ -159,7 +165,7 @@
     padding: 1rem;
   }
 
-  .loginCard {
+  .signupCard {
     border-radius: 20px;
   }
 
@@ -167,8 +173,13 @@
     font-size: 2rem;
   }
 
+  .header p {
+    font-size: 0.9rem;
+  }
+
   .form {
-    padding: 2rem 1.5rem;
+    padding: 1.5rem;
+    gap: 1rem;
   }
 
   .input {

@@ -47,6 +47,10 @@ export default function Login() {
           <button type="submit" className={styles.loginButton}>
             Log In
           </button>
+
+          <div className={styles.signupText}>
+            ยังไม่มีบัญชี? <Link href="/signup">สมัครสมาชิก</Link>
+          </div>
         </form>
       </div>
     </div>
