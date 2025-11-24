@@ -2,12 +2,35 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./landing.module.css";
 
 export default function Home() {
   const [enlargedImage, setEnlargedImage] = useState<string | null>(null);
   const router = useRouter();
+  const [currentUser, setCurrentUser] = useState<any>(null);
+  const [showUserMenu, setShowUserMenu] = useState(false);
+
+  useEffect(() => {
+    // Check if user is logged in
+    const userStr = localStorage.getItem('currentUser');
+    if (userStr) {
+      try {
+        const user = JSON.parse(userStr);
+        setCurrentUser(user);
+      } catch (error) {
+        console.error('Error parsing user data:', error);
+      }
+    }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem('currentUser');
+    localStorage.removeItem('adminToken');
+    setCurrentUser(null);
+    setShowUserMenu(false);
+    router.push('/login');
+  };
 
   const galleryImages = [
     { id: 1, src: "/room1.jpg", name: "ห้องโปรด" },
@@ -17,7 +40,7 @@ export default function Home() {
 
   const handleRoomClick = (roomId: number) => {
     router.push(`/room/${roomId}`);
-  }; 
+  };
 
   return (
     <div className={styles.container}>
@@ -30,12 +53,82 @@ export default function Home() {
           </div>
           <div className={styles.navLinks}>
             <a href="#home" className={styles.navLink}>Home</a>
-            <a href="#book" className={styles.navLink}>รายการห้องพัก</a>
+            <Link href="/book" className={styles.navLink}>รายการห้องพัก</Link>
             <a href="#about" className={styles.navLink}>About</a>
             <a href="#contact" className={styles.navLink}>Contact</a>
-            <Link href="/login" className={styles.loginButton}>
-              Log In
-            </Link>
+            {currentUser ? (
+              <div style={{ position: 'relative' }}>
+                <button
+                  onClick={() => setShowUserMenu(!showUserMenu)}
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.1)',
+                    border: '1px solid rgba(255, 255, 255, 0.2)',
+                    color: 'white',
+                    cursor: 'pointer',
+                    fontSize: '16px',
+                    fontWeight: '500',
+                    padding: '10px 20px',
+                    borderRadius: '8px',
+                    transition: 'all 0.2s',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
+                  }}
+                >
+                  👤 {currentUser.fullName} ▼
+                </button>
+                {showUserMenu && (
+                  <div style={{
+                    position: 'absolute',
+                    top: '100%',
+                    right: 0,
+                    marginTop: '8px',
+                    background: 'white',
+                    borderRadius: '8px',
+                    boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+                    minWidth: '180px',
+                    overflow: 'hidden',
+                    zIndex: 1000
+                  }}>
+                    <button
+                      onClick={handleLogout}
+                      style={{
+                        width: '100%',
+                        padding: '12px 16px',
+                        background: 'none',
+                        border: 'none',
+                        textAlign: 'left',
+                        cursor: 'pointer',
+                        fontSize: '14px',
+                        color: '#333',
+                        transition: 'background 0.2s',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.background = '#f5f5f5';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.background = 'none';
+                      }}
+                    >
+                      🚪 ออกจากระบบ
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <Link href="/login" className={styles.loginButton}>
+                Log In
+              </Link>
+            )}
           </div>
         </div>
       </nav>
@@ -53,12 +146,12 @@ export default function Home() {
               Be Bold. Design Your Life.
             </p>
             <div className={styles.heroButtons}>
-              <Link href="/dormitory#contact" className={styles.primaryButton}>
+              <Link href="/book" className={styles.primaryButton}>
                 จองห้องพัก
               </Link>
-              <a href="#book" className={styles.secondaryButton}>
+              <Link href="/book" className={styles.secondaryButton}>
                 เรียนรู้เพิ่มเติม
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -68,7 +161,7 @@ export default function Home() {
       <section id="book" style={{ padding: '80px 30px', background: '#f8f9fa' }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
           <h2 className={styles.sectionTitle} style={{ marginBottom: '50px' }}>รายการห้องพัก</h2>
-          
+
           {/* Equal Size Grid Gallery */}
           <div style={{
             display: 'grid',
@@ -115,7 +208,7 @@ export default function Home() {
                     (e.currentTarget as HTMLImageElement).style.transform = 'scale(1)';
                   }}
                 />
-                
+
                 {/* Overlay */}
                 <div style={{
                   position: 'absolute',
@@ -130,32 +223,32 @@ export default function Home() {
                   justifyContent: 'center',
                   transition: 'all 0.3s ease'
                 }}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLDivElement).style.background = 'rgba(0,0,0,0.4)';
-                  const icon = (e.currentTarget as HTMLDivElement).querySelector('span');
-                  const text = (e.currentTarget as HTMLDivElement).querySelector('p');
-                  if (icon) {
-                    (icon as HTMLSpanElement).style.opacity = '1';
-                    (icon as HTMLSpanElement).style.transform = 'scale(1)';
-                  }
-                  if (text) {
-                    (text as HTMLParagraphElement).style.opacity = '1';
-                    (text as HTMLParagraphElement).style.transform = 'translateY(0)';
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLDivElement).style.background = 'rgba(0,0,0,0)';
-                  const icon = (e.currentTarget as HTMLDivElement).querySelector('span');
-                  const text = (e.currentTarget as HTMLDivElement).querySelector('p');
-                  if (icon) {
-                    (icon as HTMLSpanElement).style.opacity = '0';
-                    (icon as HTMLSpanElement).style.transform = 'scale(0.8)';
-                  }
-                  if (text) {
-                    (text as HTMLParagraphElement).style.opacity = '0';
-                    (text as HTMLParagraphElement).style.transform = 'translateY(10px)';
-                  }
-                }}
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as HTMLDivElement).style.background = 'rgba(0,0,0,0.4)';
+                    const icon = (e.currentTarget as HTMLDivElement).querySelector('span');
+                    const text = (e.currentTarget as HTMLDivElement).querySelector('p');
+                    if (icon) {
+                      (icon as HTMLSpanElement).style.opacity = '1';
+                      (icon as HTMLSpanElement).style.transform = 'scale(1)';
+                    }
+                    if (text) {
+                      (text as HTMLParagraphElement).style.opacity = '1';
+                      (text as HTMLParagraphElement).style.transform = 'translateY(0)';
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLDivElement).style.background = 'rgba(0,0,0,0)';
+                    const icon = (e.currentTarget as HTMLDivElement).querySelector('span');
+                    const text = (e.currentTarget as HTMLDivElement).querySelector('p');
+                    if (icon) {
+                      (icon as HTMLSpanElement).style.opacity = '0';
+                      (icon as HTMLSpanElement).style.transform = 'scale(0.8)';
+                    }
+                    if (text) {
+                      (text as HTMLParagraphElement).style.opacity = '0';
+                      (text as HTMLParagraphElement).style.transform = 'translateY(10px)';
+                    }
+                  }}
                 >
                   <span style={{
                     fontSize: '40px',
