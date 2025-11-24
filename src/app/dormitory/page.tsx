@@ -53,7 +53,7 @@ export default function Home() {
               Be Bold. Design Your Life.
             </p>
             <div className={styles.heroButtons}>
-              <Link href="/login" className={styles.primaryButton}>
+              <Link href="/dormitory#contact" className={styles.primaryButton}>
                 จองห้องพัก
               </Link>
               <a href="#book" className={styles.secondaryButton}>
