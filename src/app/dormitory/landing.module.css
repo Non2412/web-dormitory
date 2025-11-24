@@ -1,0 +1,531 @@
+.container {
+  min-height: 100vh;
+  width: 100%;
+  background: #f5f5f5;
+}
+
+/* Navigation */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+  z-index: 1000;
+  padding: 1rem 2rem;
+}
+
+.navContent {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo h2 {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #333;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.logo p {
+  margin: 0;
+  font-size: 0.75rem;
+  color: #888;
+  font-style: italic;
+}
+
+.navLinks {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.navLink {
+  text-decoration: none;
+  color: #555;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: color 0.3s ease;
+  position: relative;
+}
+
+.navLink::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  transition: width 0.3s ease;
+}
+
+.navLink:hover {
+  color: #667eea;
+}
+
+.navLink:hover::after {
+  width: 100%;
+}
+
+.loginButton {
+  padding: 0.5rem 1.5rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  text-decoration: none;
+  border-radius: 25px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  border: none;
+  cursor: pointer;
+}
+
+.loginButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 25px rgba(102, 126, 234, 0.4);
+}
+
+/* Hero Section */
+.hero {
+  margin-top: 70px;
+  min-height: calc(100vh - 70px);
+  background: linear-gradient(135deg, #f5f7ff 0%, #e8eef8 100%);
+  background-image: url('https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=1200&q=80'),
+                    linear-gradient(135deg, rgba(245, 247, 255, 0.9) 0%, rgba(232, 238, 248, 0.9) 100%);
+  background-size: cover, cover;
+  background-position: center, center;
+  background-attachment: fixed;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 60%;
+  height: 100%;
+  background-image: 
+    url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 400 600%22><defs><linearGradient id=%22grad%22 x1=%220%25%22 y1=%220%25%22 x2=%22100%25%22 y2=%22100%25%22><stop offset=%220%25%22 style=%22stop-color:%23e0e7ff;stop-opacity:0.3%22/><stop offset=%22100%25%22 style=%22stop-color:%23c7d2ff;stop-opacity:0.3%22/></linearGradient></defs><rect width=%22400%22 height=%22600%22 fill=%22url(%23grad)%22/><g opacity=%220.2%22><rect x=%2250%22 y=%2280%22 width=%22120%22 height=%22200%22 fill=%22%234f46e5%22/><polygon points=%22110,80 160,20 60,20%22 fill=%22%234f46e5%22/><rect x=%22180%22 y=%2250%22 width=%22140%22 height=%22220%22 fill=%22%234f46e5%22/><polygon points=%22250,50 310,0 190,0%22 fill=%22%234f46e5%22/><circle cx=%2280%22 cy=%22180%22 r=%2215%22 fill=%22%238b9cc9%22/><circle cx=%22120%22 cy=%22180%22 r=%2215%22 fill=%22%238b9cc9%22/><circle cx=%22210%22 cy=%22150%22 r=%2218%22 fill=%22%238b9cc9%22/><circle cx=%22260%22 cy=%22180%22 r=%2218%22 fill=%22%238b9cc9%22/></g></svg>');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: right center;
+  pointer-events: none;
+}
+
+.heroOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+.heroContent {
+  text-align: center;
+  color: #333;
+  padding: 2rem;
+  max-width: 900px;
+  position: relative;
+  z-index: 2;
+}
+
+.heroTitle {
+  font-size: 3.5rem;
+  font-weight: 700;
+  margin: 0 0 1rem 0;
+  line-height: 1.2;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: fadeInUp 1s ease-out;
+}
+
+.heroSubtitle {
+  font-size: 1.5rem;
+  font-weight: 400;
+  margin: 0 0 2.5rem 0;
+  letter-spacing: 2px;
+  color: #666;
+  animation: fadeInUp 1s ease-out 0.2s backwards;
+}
+
+.heroButtons {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  animation: fadeInUp 1s ease-out 0.4s backwards;
+}
+
+.primaryButton {
+  padding: 1rem 2.5rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  text-decoration: none;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 30px rgba(102, 126, 234, 0.4);
+  border: none;
+  cursor: pointer;
+}
+
+.primaryButton:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 40px rgba(102, 126, 234, 0.5);
+}
+
+.secondaryButton {
+  padding: 1rem 2.5rem;
+  background: white;
+  color: #667eea;
+  text-decoration: none;
+  border: 2px solid #667eea;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+}
+
+.secondaryButton:hover {
+  background: #667eea;
+  color: white;
+  transform: translateY(-5px);
+  box-shadow: 0 8px 30px rgba(102, 126, 234, 0.3);
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Rooms Section */
+.roomsSection {
+  padding: 80px 30px;
+  background: #f8f9fa;
+}
+
+.roomsContent {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.sectionTitle {
+  text-align: center;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #333;
+  margin: 0 0 3rem 0;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.roomsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 40px;
+  margin-top: 40px;
+}
+
+.roomCard {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  border: 1px solid #eee;
+}
+
+.roomCard:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+}
+
+.roomImageBox {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 40px 20px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 220px;
+  position: relative;
+}
+
+.roomSvg {
+  width: 100%;
+  height: 100%;
+  max-width: 280px;
+  max-height: 200px;
+}
+
+.roomInfo {
+  padding: 30px;
+}
+
+.roomInfo h3 {
+  margin: 0 0 8px;
+  color: #333;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.roomNameEn {
+  color: #999;
+  font-size: 13px;
+  margin: 0 0 15px;
+  font-weight: 500;
+}
+
+.roomPrice {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: 20px 0;
+}
+
+.price {
+  font-size: 28px;
+  font-weight: 800;
+  color: #667eea;
+}
+
+.priceMonth {
+  font-size: 12px;
+  font-weight: 500;
+  color: #999;
+}
+
+.roomFeatures {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.roomFeatures li {
+  font-size: 13px;
+  color: #666;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 500;
+}
+
+.roomFeatures li::before {
+  content: '✓';
+  color: #667eea;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.bookButton {
+  display: block;
+  background: #667eea;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  text-align: center;
+  text-decoration: none;
+  margin-top: 20px;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+}
+
+.bookButton:hover {
+  background: #764ba2;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+/* Features Section */
+.features {
+  padding: 5rem 2rem;
+  background: white;
+}
+
+.featuresContent {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.featuresGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+}
+
+.featureCard {
+  padding: 2rem;
+  background: white;
+  border: 1px solid #e8e8e8;
+  border-radius: 20px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.featureCard:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 40px rgba(102, 126, 234, 0.2);
+  border-color: #667eea;
+}
+
+.featureIcon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  filter: grayscale(0);
+  transition: transform 0.3s ease;
+}
+
+.featureCard:hover .featureIcon {
+  transform: scale(1.1);
+}
+
+.featureCard h3 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 1rem 0;
+}
+
+.featureCard p {
+  color: #666;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Footer */
+.footer {
+  background: #f8f9fa;
+  color: #333;
+  padding: 3rem 2rem 1rem;
+  border-top: 1px solid #e8e8e8;
+}
+
+.footerContent {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.footerSection h3 {
+  font-size: 1.3rem;
+  margin: 0 0 1rem 0;
+  color: #333;
+}
+
+.footerSection h4 {
+  font-size: 1.1rem;
+  margin: 0 0 1rem 0;
+  color: #555;
+}
+
+.footerSection p {
+  margin: 0.5rem 0;
+  color: #666;
+}
+
+.footerBottom {
+  border-top: 1px solid #e8e8e8;
+  padding-top: 1.5rem;
+  text-align: center;
+  color: #999;
+}
+
+.footerBottom p {
+  margin: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .navLinks {
+    display: none;
+  }
+
+  .heroTitle {
+    font-size: 2rem;
+  }
+
+  .heroSubtitle {
+    font-size: 1rem;
+  }
+
+  .heroButtons {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .primaryButton,
+  .secondaryButton {
+    padding: 0.8rem 2rem;
+    font-size: 1rem;
+  }
+
+  .sectionTitle {
+    font-size: 1.8rem;
+  }
+
+  .roomsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .featuresGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .roomsSection {
+    padding: 60px 20px;
+  }
+
+  .roomImageBox {
+    min-height: 180px;
+    padding: 30px 15px;
+  }
+
+  .roomInfo h3 {
+    font-size: 20px;
+  }
+
+  .price {
+    font-size: 24px;
+  }
+}

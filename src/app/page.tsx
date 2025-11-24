@@ -1,11 +1,14 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import styles from "./landing.module.css";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
 export default function Home() {
+  const router = useRouter();
+
   return (
     <div className={styles.container}>
       {/* Navigation Bar */}
