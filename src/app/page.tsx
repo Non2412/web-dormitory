@@ -2,29 +2,12 @@
 
 import Link from "next/link";
 import styles from "./landing.module.css";
+import Navbar from "../components/Navbar";
 
 export default function Home() {
   return (
     <div className={styles.container}>
-      {/* Navigation Bar */}
-      <nav className={styles.navbar}>
-        <div className={styles.navContent}>
-          <div className={styles.logo}>
-            <h2>ระบบจัดการหอพัก</h2>
-            <p>Dormitory Management System</p>
-          </div>
-          <div className={styles.navLinks}>
-            <a href="#home" className={styles.navLink}>Home</a>
-            <a href="#book" className={styles.navLink}>รายการห้องพัก</a>
-            <a href="#about" className={styles.navLink}>About</a>
-            <a href="#contact" className={styles.navLink}>Contact</a>
-            <Link href="/login" className={styles.loginButton}>
-              Log In
-            </Link>
-          </div>
-        </div>
-      </nav>
-
+      <Navbar />
       {/* Hero Section */}
       <section className={styles.hero}>
         <div className={styles.heroOverlay}>
