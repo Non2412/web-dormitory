@@ -8,7 +8,26 @@ import Footer from "../components/Footer";
 export default function Home() {
   return (
     <div className={styles.container}>
-      <Navbar />
+      {/* Navigation Bar */}
+      <nav className={styles.navbar}>
+        <div className={styles.navContent}>
+          <div className={styles.logo}>
+            <h2>ระบบจัดการหอพัก</h2>
+            <p>Dormitory Management System</p>
+          </div>
+          <div className={styles.navLinks}>
+            <a href="#home" className={styles.navLink}>Home</a>
+            <a href="#book" className={styles.navLink}>รายการห้องพัก</a>
+            <a href="#about" className={styles.navLink}>About</a>
+            <a href="#contact" className={styles.navLink}>Contact</a>
+            <a href="/qr_check" className={styles.navLink}>ตรวจสอบ QR</a>
+            <a href="#login" className={styles.loginButton}>
+              Log In
+            </a>
+          </div>
+        </div>
+      </nav>
+
       {/* Hero Section */}
       <section className={styles.hero}>
         <div className={styles.heroOverlay}>
