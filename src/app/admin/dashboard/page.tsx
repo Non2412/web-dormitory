@@ -24,7 +24,15 @@ export default function AdminDashboard() {
 
     return (
         <div className={styles.container}>
-            <h1 className={styles.title}>ระบบจัดการหอพัก</h1>
+            <div className={styles.headerBar}>
+                <h1 className={styles.title}>ระบบจัดการหอพัก</h1>
+                <button
+                    className={styles.utilitiesBtn}
+                    onClick={() => router.push("/admin/utilities")}
+                >
+                    ⚡ จัดการค่าน้ำค่าไฟ
+                </button>
+            </div>
 
             {/* แถวแรก: หัวข้อห้องพัก */}
             <div className={styles.cardRow}>

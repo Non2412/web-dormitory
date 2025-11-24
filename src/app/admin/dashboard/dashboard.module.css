@@ -6,14 +6,40 @@
     font-family: 'Inter', sans-serif;
 }
 
+.headerBar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
 .title {
     font-size: 32px;
-    margin-bottom: 40px;
+    margin: 0;
     font-weight: 800;
     background: linear-gradient(90deg, #ffffff, #00d4ff);
+    background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     letter-spacing: -0.5px;
+}
+
+.utilitiesBtn {
+    background: linear-gradient(90deg, #00ff8c, #00d4ff);
+    color: #0f1b33;
+    border: none;
+    padding: 14px 28px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 20px rgba(0, 255, 140, 0.3);
+}
+
+.utilitiesBtn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(0, 255, 140, 0.5);
 }
 
 .cardRow {
@@ -63,6 +89,7 @@
     margin: 15px 0;
     font-weight: 700;
     background: linear-gradient(90deg, #00d4ff, #0051ff);
+    background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
