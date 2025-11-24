@@ -1,0 +1,81 @@
+.container {
+  --background: #fafafa;
+  --foreground: #fff;
+
+  --text-primary: #000;
+  --text-secondary: #666;
+
+  --button-primary-hover: #383838;
+  --button-secondary-hover: #f2f2f2;
+  --button-secondary-border: #ebebeb;
+
+
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-geist-sans);
+  background-color: var(--background);
+}
+
+.title {
+  color: rgb(189, 119, 247);
+  font-size: 28px;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.table th {
+  background: #f7f7f7;
+  color: rgb(189, 119, 247);
+  padding: 14px 10px;
+  font-weight: 600;
+  text-align: left;
+  font-size: 15px;
+}
+
+.table td {
+  padding: 14px 10px;
+  color: black;
+  border-bottom: 1px solid #eee;
+  font-size: 15px;
+}
+
+.arrow {
+  color: #888;
+  font-weight: bold;
+}
+
+.link {
+  color: #1a73e8;
+  cursor: pointer;
+}
+
+.available {
+  background-color: #d1f2e5;
+  color: #0b8043;
+  padding: 6px 14px;
+  border-radius: 16px;
+  font-weight: 600;
+}
+
+.booked {
+  background-color: #fde0db;
+  color: #d93025;
+  padding: 6px 14px;
+  border-radius: 16px;
+  font-weight: 600;
+}
+
+.table tr:hover {
+  background: #fafafa;
+  transition: 0.2s ease;
+}
