@@ -1,9 +1,12 @@
 "use client";
 
 import Navbar from "@/components/Navbar";
+import { useRouter } from "next/navigation";
 import styles from "./book.module.css";
 
 export default function BookingPage() {
+  const router = useRouter();
+  
   const rooms = [
     {
       _id: "1",
@@ -12,7 +15,7 @@ export default function BookingPage() {
       size: "30 ตร.ม.",
       priceRange: "6,600 - 12,900 บาท",
       daily: "800 - 950 บาท",
-      contract: "ดูราคาระยะสั้น",
+      contract: "สั่งจอง",
       status: "booked",
     },
     {
@@ -22,7 +25,7 @@ export default function BookingPage() {
       size: "30 ตร.ม.",
       priceRange: "6,900 - 15,000 บาท",
       daily: "850 - 1,000 บาท",
-      contract: "ดูราคาระยะสั้น",
+      contract: "สั่งจอง",
       status: "booked",
     },
     {
@@ -32,10 +35,14 @@ export default function BookingPage() {
       size: "40 ตร.ม.",
       priceRange: "8,700 - 18,000 บาท",
       daily: "900 - 1,100 บาท",
-      contract: "ดูราคาระยะสั้น",
+      contract: "สั่งจอง",
       status: "available",
     },
   ];
+
+  const handleBooking = (roomId: string) => {
+    router.push(`/room/${roomId}`);
+  };
 
   return (
     <>
@@ -66,7 +73,13 @@ export default function BookingPage() {
                 <td>{room.size}</td>
                 <td>{room.priceRange}</td>
                 <td>{room.daily}</td>
-                <td className={styles.link}>{room.contract}</td>
+                <td 
+                  className={styles.link}
+                  onClick={() => handleBooking(room._id)}
+                  style={{ cursor: 'pointer' }}
+                >
+                  {room.contract}
+                </td>
                 <td>
                   <span
                     className={
