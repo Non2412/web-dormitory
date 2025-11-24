@@ -2,6 +2,8 @@
 
 import styles from "./dashboard.module.css";
 
+import SlipVerifier from "./SlipVerifier";
+
 export default function AdminDashboard() {
   return (
     <div className={styles.container}>
@@ -76,7 +78,7 @@ export default function AdminDashboard() {
         </div>
       </div>
 
-      {/* การชำระเงินใกล้ครบกำหนด */}
+      {/* การชำระเงินที่ใกล้ครบกำหนด */}
       <div className={styles.section}>
         <h2>การชำระเงินที่ใกล้ครบกำหนด</h2>
 
@@ -97,6 +99,9 @@ export default function AdminDashboard() {
           </div>
         </div>
       </div>
+
+      {/* ระบบตรวจสอบสลิป */}
+      <SlipVerifier />
     </div>
   );
 }
