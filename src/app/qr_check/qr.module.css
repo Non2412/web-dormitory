@@ -1,0 +1,57 @@
+.container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 16px;
+}
+
+.scannerArea {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.reader {
+  width: 420px;
+  height: 320px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #f8fafc;
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.fileLabel input[type="file"] {
+  display: block;
+  margin-top: 8px;
+}
+
+.resultCard {
+  margin-top: 20px;
+  padding: 12px;
+  border: 1px solid #e6e6f0;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.resultText {
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.placeholder {
+  color: #6b7280;
+}
+
+.error {
+  color: #b91c1c;
+}
+
+.hidden {
+  display: none;
+}
