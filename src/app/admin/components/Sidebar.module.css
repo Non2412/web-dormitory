@@ -1,88 +1,88 @@
 .sidebar {
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: 280px;
-  height: 100vh;
-  background: rgba(15, 27, 51, 0.95);
-  backdrop-filter: blur(10px);
-  border-right: 1px solid rgba(255, 255, 255, 0.1);
-  display: flex;
-  flex-direction: column;
-  z-index: 1000;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 280px;
+    height: 100vh;
+    background: rgba(15, 27, 51, 0.95);
+    backdrop-filter: blur(10px);
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
 }
 
 .logo {
-  padding: 30px 20px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 30px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .logo h2 {
-  margin: 0;
-  font-size: 20px;
-  font-weight: 700;
-  color: #fff;
-  text-align: center;
+    margin: 0;
+    font-size: 20px;
+    font-weight: 700;
+    color: #fff;
+    text-align: center;
 }
 
 .nav {
-  flex: 1;
-  padding: 20px 0;
-  overflow-y: auto;
+    flex: 1;
+    padding: 20px 0;
+    overflow-y: auto;
 }
 
 .navItem {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  padding: 15px 25px;
-  background: transparent;
-  border: none;
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 16px;
-  cursor: pointer;
-  transition: all 0.2s;
-  text-align: left;
-  border-left: 3px solid transparent;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px 25px;
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: left;
+    border-left: 3px solid transparent;
 }
 
 .navItem:hover {
-  background: rgba(255, 255, 255, 0.05);
-  color: #fff;
-  border-left-color: #00d4ff;
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+    border-left-color: #00d4ff;
 }
 
 .navItem.active {
-  background: rgba(0, 212, 255, 0.1);
-  color: #00d4ff;
-  border-left-color: #00d4ff;
-  font-weight: 600;
+    background: rgba(0, 212, 255, 0.1);
+    color: #00d4ff;
+    border-left-color: #00d4ff;
+    font-weight: 600;
 }
 
 .icon {
-  font-size: 20px;
+    font-size: 20px;
 }
 
 .footer {
-  padding: 20px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .logoutBtn {
-  width: 100%;
-  padding: 12px;
-  background: rgba(255, 77, 77, 0.1);
-  border: 1px solid rgba(255, 77, 77, 0.3);
-  border-radius: 8px;
-  color: #ff4d4d;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s;
+    width: 100%;
+    padding: 12px;
+    background: rgba(255, 77, 77, 0.1);
+    border: 1px solid rgba(255, 77, 77, 0.3);
+    border-radius: 8px;
+    color: #ff4d4d;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
 }
 
 .logoutBtn:hover {
-  background: rgba(255, 77, 77, 0.2);
-  border-color: #ff4d4d;
+    background: rgba(255, 77, 77, 0.2);
+    border-color: #ff4d4d;
 }

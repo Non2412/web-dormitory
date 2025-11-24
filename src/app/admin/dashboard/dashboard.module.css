@@ -1,3 +1,8 @@
+.mainContent {
+    margin-left: 280px;
+    min-height: 100vh;
+}
+
 .container {
     padding: 40px;
     background: linear-gradient(135deg, #0f1b33 0%, #1a2b4b 100%);
