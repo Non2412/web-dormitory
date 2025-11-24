@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
+import Navbar from "@/components/Navbar";
 
 interface Room {
   id: number;
@@ -105,43 +106,7 @@ export default function RoomDetail() {
   return (
     <div style={{ minHeight: '100vh', backgroundColor: '#f8f9fa' }}>
       {/* Navigation Header */}
-      <nav style={{ 
-        backgroundColor: '#fff', 
-        boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-        padding: '15px 30px',
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center'
-      }}>
-        <button 
-          onClick={() => router.push("/dormitory")}
-          style={{ 
-            fontSize: '24px', 
-            fontWeight: 'bold', 
-            color: '#000',
-            background: 'none',
-            border: 'none',
-            cursor: 'pointer'
-          }}
-        >
-          ระบบจัดการหอพัก
-        </button>
-        <button 
-          onClick={() => router.push("/dormitory")}
-          style={{
-            padding: '8px 16px',
-            backgroundColor: '#007bff',
-            color: 'white',
-            textDecoration: 'none',
-            borderRadius: '4px',
-            fontSize: '14px',
-            border: 'none',
-            cursor: 'pointer'
-          }}
-        >
-          ← กลับหน้าหลัก
-        </button>
-      </nav>
+      <Navbar />
 
       {/* Room Detail Container */}
       <div style={{ maxWidth: '1200px', margin: '40px auto', padding: '0 20px' }}>
@@ -172,9 +137,9 @@ export default function RoomDetail() {
                 <h1 style={{ margin: '0 0 10px 0', fontSize: '32px', color: '#000' }}>{room.name}</h1>
                 <p style={{ color: '#999', fontSize: '16px', margin: '0 0 25px 0' }}>{room.type}</p>
 
-                <div style={{ 
-                  backgroundColor: '#e3f2fd', 
-                  padding: '20px', 
+                <div style={{
+                  backgroundColor: '#e3f2fd',
+                  padding: '20px',
                   borderRadius: '8px',
                   marginBottom: '35px',
                   borderLeft: '5px solid #1976d2'
@@ -182,7 +147,7 @@ export default function RoomDetail() {
                   <h3 style={{ marginTop: 0, marginBottom: '10px', color: '#000' }}>📝 รายละเอียด</h3>
                   <p style={{ margin: '0 0 15px 0', lineHeight: '1.6', color: '#000', fontWeight: '500' }}>{room.description}</p>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
-                  <div style={{ padding: '12px', backgroundColor: 'white', borderRadius: '6px' }}>
+                    <div style={{ padding: '12px', backgroundColor: 'white', borderRadius: '6px' }}>
                       <strong style={{ color: '#000' }}>📐 ขนาดห้อง:</strong> <span style={{ color: '#000', fontWeight: '500' }}>{room.size} ตร.ม.</span>
                     </div>
                     <div style={{ padding: '12px', backgroundColor: 'white', borderRadius: '6px' }}>
