@@ -113,19 +113,34 @@ export default function RoomDetail() {
         justifyContent: 'space-between',
         alignItems: 'center'
       }}>
-        <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#000' }}>
+        <button 
+          onClick={() => router.push("/dormitory")}
+          style={{ 
+            fontSize: '24px', 
+            fontWeight: 'bold', 
+            color: '#000',
+            background: 'none',
+            border: 'none',
+            cursor: 'pointer'
+          }}
+        >
           ระบบจัดการหอพัก
-        </div>
-        <Link href="/" style={{
-          padding: '8px 16px',
-          backgroundColor: '#007bff',
-          color: 'white',
-          textDecoration: 'none',
-          borderRadius: '4px',
-          fontSize: '14px'
-        }}>
+        </button>
+        <button 
+          onClick={() => router.push("/dormitory")}
+          style={{
+            padding: '8px 16px',
+            backgroundColor: '#007bff',
+            color: 'white',
+            textDecoration: 'none',
+            borderRadius: '4px',
+            fontSize: '14px',
+            border: 'none',
+            cursor: 'pointer'
+          }}
+        >
           ← กลับหน้าหลัก
-        </Link>
+        </button>
       </nav>
 
       {/* Room Detail Container */}

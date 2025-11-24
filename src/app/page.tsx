@@ -1,18 +1,25 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import styles from "./landing.module.css";
 
 export default function Home() {
+  const router = useRouter();
+
   return (
     <div className={styles.container}>
       {/* Navigation Bar */}
       <nav className={styles.navbar}>
         <div className={styles.navContent}>
-          <div className={styles.logo}>
+          <button 
+            onClick={() => router.push("/dormitory")}
+            className={styles.logo}
+            style={{ background: "none", border: "none", cursor: "pointer" }}
+          >
             <h2>ระบบจัดการหอพัก</h2>
             <p>Dormitory Management System</p>
-          </div>
+          </button>
           <div className={styles.navLinks}>
             <a href="#home" className={styles.navLink}>Home</a>
             <a href="#book" className={styles.navLink}>รายการห้องพัก</a>
