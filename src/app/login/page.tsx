@@ -14,22 +14,36 @@ export default function Login() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    
+
     try {
-      // ดึงข้อมูลผู้ใช้จาก localStorage
+      // 1. Check for Admin Login
+      if (email === "admin@dorm.com" && password === "admin123") {
+        localStorage.setItem("adminToken", "demo-token-123");
+        localStorage.setItem('currentUser', JSON.stringify({
+          fullName: "Administrator",
+          email: "admin@dorm.com",
+          role: "admin",
+          loginTime: new Date().toISOString(),
+        }));
+        alert("เข้าสู่ระบบ Admin สำเร็จ");
+        router.push("/admin/dashboard");
+        return;
+      }
+
+      // 2. Check for User Login
       const existingUsers = localStorage.getItem('users');
-      
+
       if (!existingUsers) {
         alert("ไม่พบผู้ใช้ในระบบ กรุณาสมัครสมาชิกก่อน");
         setIsLoading(false);
         return;
       }
-      
+
       const users = JSON.parse(existingUsers);
-      
+
       // ตรวจสอบข้อมูล login
       const user = users.find((u: any) => u.email === email && u.password === password);
-      
+
       if (user) {
         // Login สำเร็จ
         localStorage.setItem('currentUser', JSON.stringify({
@@ -38,17 +52,17 @@ export default function Login() {
           phone: user.phone,
           loginTime: new Date().toISOString(),
         }));
-        
+
         console.log("Login success:", user);
         alert(`เข้าสู่ระบบสำเร็จ!\nยินดีต้อนรับคุณ ${user.fullName}`);
-        
-        // TODO: Redirect to dashboard or home page
-        // router.push('/dashboard');
-        
+
+        // TODO: Redirect to user home page
+        // router.push('/home');
+
       } else {
         alert("อีเมลหรือรหัสผ่านไม่ถูกต้อง!");
       }
-      
+
     } catch (error) {
       console.error("Login error:", error);
       alert("เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง");
@@ -63,7 +77,7 @@ export default function Login() {
         <div className={styles.header}>
           <h1>LOGIN</h1>
         </div>
-        
+
         <form onSubmit={handleSubmit} className={styles.form}>
           <div className={styles.inputGroup}>
             <input
@@ -93,6 +107,10 @@ export default function Login() {
 
           <div className={styles.signupText}>
             ยังไม่มีบัญชี? <Link href="/signup">สมัครสมาชิก</Link>
+          </div>
+
+          <div style={{ marginTop: '20px', fontSize: '12px', color: 'rgba(255,255,255,0.5)', textAlign: 'center' }}>
+            <p>Demo Admin: admin@dorm.com / admin123</p>
           </div>
         </form>
       </div>
