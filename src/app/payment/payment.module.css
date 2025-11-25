@@ -1,0 +1,504 @@
+.container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding-bottom: 60px;
+}
+
+.paymentWrapper {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.paymentContainer {
+    background: white;
+    border-radius: 24px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    animation: slideUp 0.5s ease-out;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 40px;
+    text-align: center;
+    color: white;
+}
+
+.title {
+    margin: 0 0 10px 0;
+    font-size: 32px;
+    font-weight: 800;
+}
+
+.subtitle {
+    margin: 0;
+    font-size: 16px;
+    opacity: 0.9;
+}
+
+.bookingSummary {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    padding: 30px 40px;
+    color: white;
+}
+
+.bookingSummary h2 {
+    margin: 0 0 20px 0;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.summaryDetails {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    padding: 20px;
+}
+
+.summaryRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.summaryRow:last-child {
+    border-bottom: none;
+}
+
+.summaryRow.total {
+    font-size: 20px;
+    font-weight: 800;
+    padding-top: 20px;
+    margin-top: 10px;
+    border-top: 2px solid rgba(255, 255, 255, 0.4);
+}
+
+.form {
+    padding: 40px;
+}
+
+.formSection {
+    margin-bottom: 40px;
+    padding-bottom: 40px;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+.formSection:last-of-type {
+    border-bottom: none;
+}
+
+.sectionTitle {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 22px;
+    font-weight: 700;
+    color: #333;
+    margin: 0 0 25px 0;
+}
+
+.sectionIcon {
+    font-size: 28px;
+}
+
+.formGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+@media (max-width: 768px) {
+    .formGrid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.formGroup label {
+    font-weight: 600;
+    color: #333;
+    font-size: 15px;
+}
+
+.required {
+    color: #e74c3c;
+    margin-left: 4px;
+}
+
+.formGroup input,
+.formGroup select,
+.formGroup textarea {
+    padding: 14px 16px;
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    font-family: inherit;
+}
+
+.formGroup input:focus,
+.formGroup select:focus,
+.formGroup textarea:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+}
+
+.formGroup textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.inputError {
+    border-color: #e74c3c !important;
+}
+
+.inputError:focus {
+    box-shadow: 0 0 0 4px rgba(231, 76, 60, 0.1) !important;
+}
+
+.paymentMethods {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+    .paymentMethods {
+        grid-template-columns: 1fr;
+    }
+}
+
+.paymentMethod {
+    position: relative;
+    cursor: pointer;
+}
+
+.paymentMethod input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+}
+
+.methodContent {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px;
+    border: 2px solid #e0e0e0;
+    border-radius: 16px;
+    transition: all 0.3s ease;
+    background: white;
+}
+
+.paymentMethod input[type="radio"]:checked+.methodContent {
+    border-color: #667eea;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+}
+
+.methodIcon {
+    font-size: 32px;
+}
+
+.methodContent strong {
+    display: block;
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 4px;
+}
+
+.methodContent p {
+    margin: 0;
+    font-size: 13px;
+    color: #666;
+}
+
+.bankDetails {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    padding: 24px;
+    border-radius: 16px;
+    margin-top: 20px;
+}
+
+.bankDetails h4 {
+    margin: 0 0 16px 0;
+    font-size: 18px;
+    color: #333;
+}
+
+.bankInfo {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    border-left: 4px solid #667eea;
+}
+
+.bankInfo p {
+    margin: 8px 0;
+    font-size: 15px;
+    color: #333;
+}
+
+.bankInfo p strong {
+    color: #667eea;
+    min-width: 120px;
+    display: inline-block;
+}
+
+.promptpayDetails {
+    background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%);
+    padding: 24px;
+    border-radius: 16px;
+    margin-top: 20px;
+}
+
+.promptpayDetails h4 {
+    margin: 0 0 20px 0;
+    font-size: 18px;
+    color: #333;
+    text-align: center;
+}
+
+.qrCodeContainer {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    border: 2px solid #00bcd4;
+}
+
+.qrCode {
+    width: 280px;
+    height: 280px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 188, 212, 0.2);
+    animation: qrPulse 2s ease-in-out infinite;
+}
+
+@keyframes qrPulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+        box-shadow: 0 4px 12px rgba(0, 188, 212, 0.2);
+    }
+
+    50% {
+        transform: scale(1.02);
+        box-shadow: 0 8px 20px rgba(0, 188, 212, 0.3);
+    }
+}
+
+.qrInfo {
+    text-align: center;
+    width: 100%;
+}
+
+.qrInfo p {
+    margin: 8px 0;
+    font-size: 15px;
+    color: #333;
+}
+
+.qrInfo p strong {
+    color: #00bcd4;
+}
+
+.qrNote {
+    color: #666 !important;
+    font-size: 14px !important;
+    font-style: italic;
+}
+
+.fileUpload {
+    position: relative;
+}
+
+.fileInput {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.fileLabel {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    text-align: center;
+    justify-content: center;
+}
+
+.fileLabel:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+}
+
+.uploadIcon {
+    font-size: 24px;
+}
+
+.imagePreview {
+    margin-top: 20px;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 2px solid #e0e0e0;
+    max-width: 400px;
+}
+
+.imagePreview img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.submitSection {
+    display: flex;
+    gap: 16px;
+    margin-top: 40px;
+    padding-top: 40px;
+    border-top: 2px solid #f0f0f0;
+}
+
+@media (max-width: 768px) {
+    .submitSection {
+        flex-direction: column;
+    }
+}
+
+.submitButton {
+    flex: 1;
+    padding: 18px 32px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 16px;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+}
+
+.submitButton:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(102, 126, 234, 0.5);
+}
+
+.submitButton:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.cancelButton {
+    flex: 1;
+    padding: 18px 32px;
+    background: white;
+    color: #666;
+    border: 2px solid #e0e0e0;
+    border-radius: 16px;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.cancelButton:hover:not(:disabled) {
+    background: #f8f9fa;
+    border-color: #ccc;
+}
+
+.cancelButton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.spinner {
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.errorContainer {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    text-align: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.errorContainer h1 {
+    font-size: 48px;
+    margin-bottom: 20px;
+}
+
+.errorContainer p {
+    font-size: 20px;
+    margin-bottom: 30px;
+    opacity: 0.9;
+}
+
+.backButton {
+    padding: 16px 32px;
+    background: white;
+    color: #667eea;
+    border: none;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.backButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(255, 255, 255, 0.3);
+}
