@@ -25,13 +25,22 @@ export default function PaymentHistoryPage() {
 
     useEffect(() => {
         if (!authLoading) {
-            if (!isAuthenticated || user?.role !== 'ADMIN') {
+            if (!isAuthenticated) {
                 router.push("/login");
             } else {
                 // Load payments from localStorage
                 const savedPayments = localStorage.getItem("payments");
                 if (savedPayments) {
-                    setPayments(JSON.parse(savedPayments));
+                    const allPayments = JSON.parse(savedPayments);
+                    // If user is not admin, filter to show only their payments
+                    if (user?.role !== 'ADMIN') {
+                        const userPayments = allPayments.filter((p: Payment) =>
+                            p.tenantName === `${user?.firstName} ${user?.lastName}`
+                        );
+                        setPayments(userPayments);
+                    } else {
+                        setPayments(allPayments);
+                    }
                 } else {
                     // Initial mock data
                     const mockPayments: Payment[] = [
@@ -63,7 +72,16 @@ export default function PaymentHistoryPage() {
                             slipUrl: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&q=80&w=1000",
                         },
                     ];
-                    setPayments(mockPayments);
+
+                    // If user is not admin, filter to show only their payments
+                    if (user?.role !== 'ADMIN') {
+                        const userPayments = mockPayments.filter(p =>
+                            p.tenantName === `${user?.firstName} ${user?.lastName}`
+                        );
+                        setPayments(userPayments);
+                    } else {
+                        setPayments(mockPayments);
+                    }
                     localStorage.setItem("payments", JSON.stringify(mockPayments));
                 }
             }
@@ -98,6 +116,11 @@ export default function PaymentHistoryPage() {
             <div className={styles.mainContent}>
                 <div className={styles.header}>
                     <h1>ประวัติการชำระเงิน (Payment History)</h1>
+                    {user?.role !== 'ADMIN' && (
+                        <p style={{ fontSize: '14px', color: '#666', marginTop: '8px' }}>
+                            แสดงเฉพาะการชำระเงินของคุณ
+                        </p>
+                    )}
                 </div>
 
                 <div className={styles.tableContainer}>
@@ -113,40 +136,48 @@ export default function PaymentHistoryPage() {
                             </tr>
                         </thead>
                         <tbody>
-                            {payments.map((payment) => (
-                                <tr key={payment.id}>
-                                    <td>{payment.date}</td>
-                                    <td>
-                                        <span style={{ fontWeight: 600 }}>ห้อง {payment.roomNumber}</span>
-                                    </td>
-                                    <td className={styles.tenantName}>{payment.tenantName}</td>
-                                    <td className={styles.amount}>฿{payment.amount.toLocaleString()}</td>
-                                    <td>
-                                        <span
-                                            className={`${styles.statusBadge} ${payment.status === "Pending"
-                                                ? styles.statusPending
-                                                : payment.status === "Verified"
-                                                    ? styles.statusVerified
-                                                    : styles.statusRejected
-                                                }`}
-                                        >
-                                            {payment.status === "Pending"
-                                                ? "รอตรวจสอบ"
-                                                : payment.status === "Verified"
-                                                    ? "ตรวจสอบแล้ว"
-                                                    : "ปฏิเสธ"}
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <button
-                                            className={styles.viewSlipBtn}
-                                            onClick={() => setSelectedSlip(payment.slipUrl)}
-                                        >
-                                            📄 ดูสลิป
-                                        </button>
+                            {payments.length === 0 ? (
+                                <tr>
+                                    <td colSpan={6} style={{ textAlign: 'center', padding: '40px', color: '#999' }}>
+                                        ยังไม่มีประวัติการชำระเงิน
                                     </td>
                                 </tr>
-                            ))}
+                            ) : (
+                                payments.map((payment) => (
+                                    <tr key={payment.id}>
+                                        <td>{payment.date}</td>
+                                        <td>
+                                            <span style={{ fontWeight: 600 }}>ห้อง {payment.roomNumber}</span>
+                                        </td>
+                                        <td className={styles.tenantName}>{payment.tenantName}</td>
+                                        <td className={styles.amount}>฿{payment.amount.toLocaleString()}</td>
+                                        <td>
+                                            <span
+                                                className={`${styles.statusBadge} ${payment.status === "Pending"
+                                                    ? styles.statusPending
+                                                    : payment.status === "Verified"
+                                                        ? styles.statusVerified
+                                                        : styles.statusRejected
+                                                    }`}
+                                            >
+                                                {payment.status === "Pending"
+                                                    ? "รอตรวจสอบ"
+                                                    : payment.status === "Verified"
+                                                        ? "ตรวจสอบแล้ว"
+                                                        : "ปฏิเสธ"}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <button
+                                                className={styles.viewSlipBtn}
+                                                onClick={() => setSelectedSlip(payment.slipUrl)}
+                                            >
+                                                📄 ดูสลิป
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))
+                            )}
                         </tbody>
                     </table>
                 </div>
@@ -168,28 +199,30 @@ export default function PaymentHistoryPage() {
                                 <img src={selectedSlip} alt="Transfer Slip" className={styles.slipImage} />
                             </div>
 
-                            <div className={styles.modalActions}>
-                                <button
-                                    className={`${styles.actionButton} ${styles.rejectButton}`}
-                                    onClick={() => {
-                                        // Find the payment associated with this slip to reject
-                                        const payment = payments.find(p => p.slipUrl === selectedSlip);
-                                        if (payment) handleReject(payment.id);
-                                    }}
-                                >
-                                    ปฏิเสธ
-                                </button>
-                                <button
-                                    className={`${styles.actionButton} ${styles.verifyButton}`}
-                                    onClick={() => {
-                                        // Find the payment associated with this slip to verify
-                                        const payment = payments.find(p => p.slipUrl === selectedSlip);
-                                        if (payment) handleVerify(payment.id);
-                                    }}
-                                >
-                                    ยืนยันถูกต้อง
-                                </button>
-                            </div>
+                            {user?.role === 'ADMIN' && (
+                                <div className={styles.modalActions}>
+                                    <button
+                                        className={`${styles.actionButton} ${styles.rejectButton}`}
+                                        onClick={() => {
+                                            // Find the payment associated with this slip to reject
+                                            const payment = payments.find(p => p.slipUrl === selectedSlip);
+                                            if (payment) handleReject(payment.id);
+                                        }}
+                                    >
+                                        ปฏิเสธ
+                                    </button>
+                                    <button
+                                        className={`${styles.actionButton} ${styles.verifyButton}`}
+                                        onClick={() => {
+                                            // Find the payment associated with this slip to verify
+                                            const payment = payments.find(p => p.slipUrl === selectedSlip);
+                                            if (payment) handleVerify(payment.id);
+                                        }}
+                                    >
+                                        ยืนยันถูกต้อง
+                                    </button>
+                                </div>
+                            )}
                         </div>
                     </div>
                 )}
