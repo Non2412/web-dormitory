@@ -12,11 +12,11 @@ export async function GET(request: Request) {
             dormitoryId: '1',
             floor: 2,
             capacity: 350,
-            price: 4500,
+            price: 5000,
             status: 'AVAILABLE',
             dormitory: {
                 id: '1',
-                name: 'ห้องเล็ก'
+                name: 'ห้องโปรด'
             },
             image: '/room1.jpg',
             name: 'ห้องโปรด (Standard)',
@@ -36,14 +36,14 @@ export async function GET(request: Request) {
         {
             id: '2',
             roomNumber: 'Economy Room',
-            dormitoryId: '1',
-            floor: 5,
+            dormitoryId: '2',
+            floor: 2,
             capacity: 1400,
             price: 6500,
             status: 'AVAILABLE',
             dormitory: {
-                id: '1',
-                name: 'ห้องขนาดกลาง'
+                id: '2',
+                name: 'ห้องมาตรฐาน'
             },
             image: '/room2.jpg',
             name: 'ห้องมาตรฐาน (Economy)',
@@ -63,14 +63,14 @@ export async function GET(request: Request) {
         {
             id: '3',
             roomNumber: 'Premium Room',
-            dormitoryId: '1',
-            floor: 10,
+            dormitoryId: '3',
+            floor: 4,
             capacity: 2000,
             price: 8500,
             status: 'AVAILABLE',
             dormitory: {
-                id: '1',
-                name: 'ห้องขนาดใหญ่'
+                id: '3',
+                name: 'ห้องพรีเมียม'
             },
             image: '/room3.jpg',
             name: 'ห้องพรีเมียม (Premium)',
