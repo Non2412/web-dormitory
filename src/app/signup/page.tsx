@@ -3,18 +3,22 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/contexts/AuthContext";
 import styles from "./signup.module.css";
 
 export default function SignUp() {
   const router = useRouter();
+  const { register } = useAuth();
   const [formData, setFormData] = useState({
-    fullName: "",
+    firstName: "",
+    lastName: "",
     email: "",
     phone: "",
     password: "",
     confirmPassword: "",
   });
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -25,51 +29,36 @@ export default function SignUp() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+    setError("");
+
     if (formData.password !== formData.confirmPassword) {
-      alert("รหัสผ่านไม่ตรงกัน!");
+      setError("รหัสผ่านไม่ตรงกัน!");
       return;
     }
-    
+
+    if (formData.password.length < 6) {
+      setError("รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร");
+      return;
+    }
+
     setIsLoading(true);
-    
-    // เก็บข้อมูลการสมัครใน localStorage
-    const userData = {
-      fullName: formData.fullName,
-      email: formData.email,
-      phone: formData.phone,
-      password: formData.password,
-      createdAt: new Date().toISOString(),
-    };
-    
+
     try {
-      // เก็บข้อมูลผู้ใช้
-      const existingUsers = localStorage.getItem('users');
-      const users = existingUsers ? JSON.parse(existingUsers) : [];
-      
-      // ตรวจสอบว่าอีเมลซ้ำหรือไม่
-      const emailExists = users.some((user: any) => user.email === formData.email);
-      if (emailExists) {
-        alert("อีเมลนี้มีอยู่ในระบบแล้ว!");
-        setIsLoading(false);
-        return;
-      }
-      
-      // เพิ่มผู้ใช้ใหม่
-      users.push(userData);
-      localStorage.setItem('users', JSON.stringify(users));
-      
-      console.log("Sign up success:", userData);
-      alert("สมัครสมาชิกสำเร็จ! กำลังไปหน้าเข้าสู่ระบบ...");
-      
-      // ไปหน้า login หลังจาก 1 วินาที
-      setTimeout(() => {
-        router.push('/login');
-      }, 1000);
-      
-    } catch (error) {
-      console.error("Error saving user data:", error);
-      alert("เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง");
+      await register({
+        email: formData.email,
+        password: formData.password,
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        phone: formData.phone,
+      });
+
+      alert("สมัครสมาชิกสำเร็จ! กำลังไปหน้าห้องพัก...");
+      router.push('/book');
+
+    } catch (err: any) {
+      console.error("Error signing up:", err);
+      setError(err.message || "เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง");
+    } finally {
       setIsLoading(false);
     }
   };
@@ -81,14 +70,41 @@ export default function SignUp() {
           <h1>SIGN UP</h1>
           <p>สมัครสมาชิก</p>
         </div>
-        
+
         <form onSubmit={handleSubmit} className={styles.form}>
+          {error && (
+            <div style={{
+              padding: '10px',
+              marginBottom: '15px',
+              backgroundColor: 'rgba(255, 0, 0, 0.1)',
+              border: '1px solid rgba(255, 0, 0, 0.3)',
+              borderRadius: '8px',
+              color: '#ff4444',
+              fontSize: '14px',
+              textAlign: 'center'
+            }}>
+              {error}
+            </div>
+          )}
+
           <div className={styles.inputGroup}>
             <input
               type="text"
-              name="fullName"
-              placeholder="ชื่อ-นามสกุล"
-              value={formData.fullName}
+              name="firstName"
+              placeholder="ชื่อ"
+              value={formData.firstName}
+              onChange={handleChange}
+              className={styles.input}
+              required
+            />
+          </div>
+
+          <div className={styles.inputGroup}>
+            <input
+              type="text"
+              name="lastName"
+              placeholder="นามสกุล"
+              value={formData.lastName}
               onChange={handleChange}
               className={styles.input}
               required
@@ -123,11 +139,12 @@ export default function SignUp() {
             <input
               type="password"
               name="password"
-              placeholder="รหัสผ่าน"
+              placeholder="รหัสผ่าน (อย่างน้อย 6 ตัวอักษร)"
               value={formData.password}
               onChange={handleChange}
               className={styles.input}
               required
+              minLength={6}
             />
           </div>
 
