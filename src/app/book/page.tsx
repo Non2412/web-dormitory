@@ -103,11 +103,11 @@ export default function BookingPage() {
               <th></th>
               <th>ประเภท</th>
               <th>รูปแบบห้อง</th>
-              <th>ขนาด</th>
+              <th>ขนาด (คน)</th>
               <th>รายเดือน<br />(สัญญา 1 ปี)</th>
               <th>ค่าเช่ารายวัน</th>
-              <th>สัญญาต่ำกว่า 1 ปี</th>
-              <th>สถานะ</th>
+              <th>เลือก</th>
+              <th>สถานะห้อง</th>
             </tr>
           </thead>
           <tbody>
