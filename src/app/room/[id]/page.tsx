@@ -85,10 +85,18 @@ export default function RoomDetail() {
   const router = useRouter();
   const [quantity, setQuantity] = useState(1);
 
-  const roomId = parseInt(params?.id as string);
-  const room = roomsData[roomId];
+  const idParam = params?.id as string;
+  let room: Room | undefined = undefined;
+  // Try to match by number id
+  const numId = parseInt(idParam);
+  if (!isNaN(numId) && roomsData[numId]) {
+    room = roomsData[numId];
+  } else {
+    // Try to match by string id (for future API or string keys)
+    room = Object.values(roomsData).find(r => r.id.toString() === idParam || r.name === idParam);
+  }
 
-  if (!room || isNaN(roomId)) {
+  if (!room) {
     return (
       <div style={{ padding: '40px', textAlign: 'center', minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
         <h1>ไม่พบห้องพัก</h1>

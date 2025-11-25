@@ -1,12 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
 import { api, Room } from "@/lib/api";
 import { useAuth } from "@/contexts/AuthContext";
 import Navbar from "@/components/Navbar";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 import styles from "./book.module.css";
 
 export default function BookingPage() {
@@ -38,43 +36,6 @@ export default function BookingPage() {
       setError("ไม่สามารถโหลดข้อมูลห้องพักได้");
     } finally {
       setLoading(false);
-    }
-  };
-
-  const handleBookRoom = (room: Room) => {
-    if (!isAuthenticated) {
-      alert("กรุณาเข้าสู่ระบบก่อนจองห้องพัก");
-      router.push("/login");
-      return;
-    }
-
-    setBookingRoom(room);
-    setShowBookingModal(true);
-  };
-
-  const handleConfirmBooking = async () => {
-    if (!bookingRoom || !bookingDates.startDate || !bookingDates.endDate) {
-      alert("กรุณาเลือกวันที่เริ่มต้นและสิ้นสุด");
-      return;
-    }
-
-    try {
-      const response = await api.createBooking({
-        roomId: bookingRoom.id,
-        startDate: bookingDates.startDate,
-        endDate: bookingDates.endDate,
-      });
-
-      if (response.success) {
-        alert("จองห้องพักสำเร็จ!");
-        setShowBookingModal(false);
-        setBookingRoom(null);
-        setBookingDates({ startDate: "", endDate: "" });
-        fetchRooms(); // Refresh room list
-      }
-    } catch (err: any) {
-      console.error("Booking error:", err);
-      alert(err.message || "เกิดข้อผิดพลาดในการจองห้องพัก");
     }
   };
 
@@ -126,47 +87,6 @@ export default function BookingPage() {
       </div>
     );
   }
-  const router = useRouter();
-
-  useEffect(() => {
-    const user = localStorage.getItem("currentUser");
-    if (!user) {
-      router.push("/login");
-    }
-  }, [router]);
-
-  const rooms = [
-    {
-      _id: "1",
-      type: "ห้องมาตรฐานพร้อมระเบียง",
-      roomStyle: "สตูดิโอ",
-      size: "30 ตร.ม.",
-      priceRange: "6,600 - 12,900 บาท",
-      daily: "800 - 950 บาท",
-      contract: "สั่งจอง",
-      status: "booked",
-    },
-    {
-      _id: "2",
-      type: "ห้องมาตรฐานพิเศษ พร้อมระเบียง",
-      roomStyle: "สตูดิโอ",
-      size: "30 ตร.ม.",
-      priceRange: "6,900 - 15,000 บาท",
-      daily: "850 - 1,000 บาท",
-      contract: "สั่งจอง",
-      status: "booked",
-    },
-    {
-      _id: "3",
-      type: "ห้องซูพีเรีย พร้อมระเบียงและครัว",
-      roomStyle: "1 ห้องนอน",
-      size: "40 ตร.ม.",
-      priceRange: "8,700 - 18,000 บาท",
-      daily: "900 - 1,100 บาท",
-      contract: "สั่งจอง",
-      status: "available",
-    },
-  ];
 
   const handleBooking = (roomId: string) => {
     router.push(`/room/${roomId}`);
@@ -177,7 +97,6 @@ export default function BookingPage() {
       <Navbar />
       <div className={styles.container}>
         <h1 className={styles.title}>ประเภทห้อง</h1>
-
         <table className={styles.table}>
           <thead>
             <tr>
@@ -191,32 +110,27 @@ export default function BookingPage() {
               <th>สถานะ</th>
             </tr>
           </thead>
-
           <tbody>
             {rooms.map((room) => (
-              <tr key={room._id}>
+              <tr key={room.id}>
                 <td className={styles.arrow}>&gt;</td>
-                <td>{room.type}</td>
-                <td>{room.roomStyle}</td>
-                <td>{room.size}</td>
-                <td>{room.priceRange}</td>
-                <td>{room.daily}</td>
+                <td>{room.roomNumber}</td>
+                <td>{room.dormitory?.name || '-'}</td>
+                <td>{room.floor}</td>
+                <td>{room.price}</td>
+                <td>{room.capacity}</td>
                 <td
                   className={styles.link}
-                  onClick={() => handleBooking(room._id)}
+                  onClick={() => handleBooking(room.id)}
                   style={{ cursor: 'pointer' }}
                 >
-                  {room.contract}
+                  จองห้อง
                 </td>
                 <td>
                   <span
-                    className={
-                      room.status === "available"
-                        ? styles.available
-                        : styles.booked
-                    }
+                    className={getStatusClass(room.status)}
                   >
-                    {room.status === "available" ? "ว่าง" : "เต็ม"}
+                    {getStatusText(room.status)}
                   </span>
                 </td>
               </tr>
