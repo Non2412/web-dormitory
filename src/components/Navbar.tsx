@@ -58,7 +58,7 @@ export default function Navbar() {
                     e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
                   }}
                 >
-                  👤 {user.fullName} ▼
+                  👤 {user.firstName} {user.lastName} ▼
                 </button>
                 {showUserMenu && (
                   <div style={{
