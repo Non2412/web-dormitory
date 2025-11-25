@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import Navbar from "@/components/Navbar";
 
 interface Room {
@@ -80,7 +80,7 @@ const roomsData: Record<number, Room> = {
   }
 };
 
-export default function RoomDetail() {
+function RoomDetailContent() {
   const params = useParams();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -357,5 +357,13 @@ export default function RoomDetail() {
         </div>
       </footer>
     </div>
+  );
+}
+
+export default function RoomDetail() {
+  return (
+    <Suspense fallback={<div style={{ padding: '40px', textAlign: 'center' }}>Loading...</div>}>
+      <RoomDetailContent />
+    </Suspense>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import styles from "./payment.module.css";
@@ -24,7 +24,7 @@ interface PaymentFormData {
     slipImage: File | null;
 }
 
-export default function PaymentPage() {
+function PaymentContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
 
@@ -479,5 +479,13 @@ export default function PaymentPage() {
                 </div>
             </div>
         </div>
+    );
+}
+
+export default function PaymentPage() {
+    return (
+        <Suspense fallback={<div className={styles.loadingContainer}>Loading...</div>}>
+            <PaymentContent />
+        </Suspense>
     );
 }
