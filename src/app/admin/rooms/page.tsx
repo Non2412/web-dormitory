@@ -4,11 +4,13 @@ import React, { useState, useEffect } from "react";
 import Sidebar from "../components/Sidebar";
 import styles from "./rooms.module.css";
 
+type RoomStatus = "Available" | "Occupied" | "Maintenance";
+
 interface Room {
     id: string;
     number: string;
     price: number;
-    status: "Available" | "Occupied" | "Maintenance";
+    status: RoomStatus;
     tenant?: string;
 }
 
@@ -29,20 +31,23 @@ export default function RoomsPage() {
             if (!isAuthenticated || user?.role !== 'ADMIN') {
                 router.push("/login");
             } else {
-                // Load rooms from localStorage
-                const savedRooms = localStorage.getItem("rooms");
-                if (savedRooms) {
-                    setRooms(JSON.parse(savedRooms));
-                } else {
-                    // Initial dummy data
-                    const initialRooms: Room[] = [
-                        { id: "1", number: "101", price: 4500, status: "Occupied", tenant: "John Doe" },
-                        { id: "2", number: "102", price: 4500, status: "Available" },
-                        { id: "3", number: "201", price: 5000, status: "Available" },
-                    ];
-                    setRooms(initialRooms);
-                    localStorage.setItem("rooms", JSON.stringify(initialRooms));
-                }
+                // Use setTimeout to avoid synchronous state update warning
+                setTimeout(() => {
+                    // Load rooms from localStorage
+                    const savedRooms = localStorage.getItem("rooms");
+                    if (savedRooms) {
+                        setRooms(JSON.parse(savedRooms));
+                    } else {
+                        // Initial dummy data
+                        const initialRooms: Room[] = [
+                            { id: "1", number: "101", price: 4500, status: "Occupied", tenant: "John Doe" },
+                            { id: "2", number: "102", price: 4500, status: "Available" },
+                            { id: "3", number: "201", price: 5000, status: "Available" },
+                        ];
+                        setRooms(initialRooms);
+                        localStorage.setItem("rooms", JSON.stringify(initialRooms));
+                    }
+                }, 0);
             }
         }
     }, [isAuthenticated, user, authLoading, router]);
@@ -58,7 +63,7 @@ export default function RoomsPage() {
             id: Date.now().toString(),
             number: newRoom.number,
             price: Number(newRoom.price),
-            status: newRoom.status as "Available" | "Occupied" | "Maintenance",
+            status: newRoom.status as RoomStatus,
         };
 
         const updatedRooms = [...rooms, room];
@@ -173,7 +178,7 @@ export default function RoomsPage() {
                                     onChange={(e) =>
                                         setNewRoom({
                                             ...newRoom,
-                                            status: e.target.value as any,
+                                            status: e.target.value as RoomStatus,
                                         })
                                     }
                                 >

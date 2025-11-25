@@ -27,19 +27,22 @@ export default function MyPaymentsPage() {
             if (!isAuthenticated) {
                 router.push("/login");
             } else {
-                // Load payments from localStorage
-                const savedPayments = localStorage.getItem("payments");
-                if (savedPayments) {
-                    const allPayments = JSON.parse(savedPayments);
-                    // Filter to show only user's payments
-                    const userPayments = allPayments.filter((p: Payment) =>
-                        p.tenantName === `${user?.firstName} ${user?.lastName}`
-                    );
-                    setPayments(userPayments);
-                } else {
-                    // No payments yet
-                    setPayments([]);
-                }
+                // Use setTimeout to avoid synchronous state update warning
+                setTimeout(() => {
+                    // Load payments from localStorage
+                    const savedPayments = localStorage.getItem("payments");
+                    if (savedPayments) {
+                        const allPayments = JSON.parse(savedPayments);
+                        // Filter to show only user's payments
+                        const userPayments = allPayments.filter((p: Payment) =>
+                            p.tenantName === `${user?.firstName} ${user?.lastName}`
+                        );
+                        setPayments(userPayments);
+                    } else {
+                        // No payments yet
+                        setPayments([]);
+                    }
+                }, 0);
             }
         }
     }, [isAuthenticated, user, authLoading, router]);
@@ -85,10 +88,10 @@ export default function MyPaymentsPage() {
                                     </div>
                                     <span
                                         className={`${styles.statusBadge} ${payment.status === "Pending"
-                                                ? styles.statusPending
-                                                : payment.status === "Verified"
-                                                    ? styles.statusVerified
-                                                    : styles.statusRejected
+                                            ? styles.statusPending
+                                            : payment.status === "Verified"
+                                                ? styles.statusVerified
+                                                : styles.statusRejected
                                             }`}
                                     >
                                         {payment.status === "Pending"

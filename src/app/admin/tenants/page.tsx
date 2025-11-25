@@ -31,35 +31,38 @@ export default function TenantsPage() {
             if (!isAuthenticated || user?.role !== 'ADMIN') {
                 router.push("/login");
             } else {
-                // Load tenants from localStorage
-                const savedTenants = localStorage.getItem("tenants");
-                if (savedTenants) {
-                    setTenants(JSON.parse(savedTenants));
-                } else {
-                    // Initial dummy data
-                    const initialTenants: Tenant[] = [
-                        {
-                            id: "1",
-                            name: "สมชาย ใจดี",
-                            roomNumber: "101",
-                            phone: "081-234-5678",
-                            email: "somchai@example.com",
-                            moveInDate: "2024-01-15",
-                            status: "Active",
-                        },
-                        {
-                            id: "2",
-                            name: "วิภาดา รักสงบ",
-                            roomNumber: "202",
-                            phone: "089-987-6543",
-                            email: "wipada@example.com",
-                            moveInDate: "2024-02-01",
-                            status: "Active",
-                        },
-                    ];
-                    setTenants(initialTenants);
-                    localStorage.setItem("tenants", JSON.stringify(initialTenants));
-                }
+                // Use setTimeout to avoid synchronous state update warning
+                setTimeout(() => {
+                    // Load tenants from localStorage
+                    const savedTenants = localStorage.getItem("tenants");
+                    if (savedTenants) {
+                        setTenants(JSON.parse(savedTenants));
+                    } else {
+                        // Initial dummy data
+                        const initialTenants: Tenant[] = [
+                            {
+                                id: "1",
+                                name: "สมชาย ใจดี",
+                                roomNumber: "101",
+                                phone: "081-234-5678",
+                                email: "somchai@example.com",
+                                moveInDate: "2024-01-15",
+                                status: "Active",
+                            },
+                            {
+                                id: "2",
+                                name: "วิภาดา รักสงบ",
+                                roomNumber: "202",
+                                phone: "089-987-6543",
+                                email: "wipada@example.com",
+                                moveInDate: "2024-02-01",
+                                status: "Active",
+                            },
+                        ];
+                        setTenants(initialTenants);
+                        localStorage.setItem("tenants", JSON.stringify(initialTenants));
+                    }
+                }, 0);
             }
         }
     }, [isAuthenticated, user, authLoading, router]);

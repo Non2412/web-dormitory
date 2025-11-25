@@ -10,8 +10,10 @@ interface Payment {
     roomNumber: string;
     tenantName: string;
     amount: number;
-    status: "Pending" | "Verified" | "Rejected";
+    status: string; // Changed from union type to string to avoid potential mismatches with API/Storage
     slipUrl: string;
+    paymentMethod?: string;
+    bookingId?: string;
 }
 
 import { useAuth } from "@/contexts/AuthContext";
@@ -27,23 +29,19 @@ export default function PaymentHistoryPage() {
         if (!authLoading) {
             if (!isAuthenticated) {
                 router.push("/login");
-            } else {
+                return;
+            }
+
+            const loadPayments = () => {
                 // Load payments from localStorage
                 const savedPayments = localStorage.getItem("payments");
+                let loadedPayments: Payment[] = [];
+
                 if (savedPayments) {
-                    const allPayments = JSON.parse(savedPayments);
-                    // If user is not admin, filter to show only their payments
-                    if (user?.role !== 'ADMIN') {
-                        const userPayments = allPayments.filter((p: Payment) =>
-                            p.tenantName === `${user?.firstName} ${user?.lastName}`
-                        );
-                        setPayments(userPayments);
-                    } else {
-                        setPayments(allPayments);
-                    }
+                    loadedPayments = JSON.parse(savedPayments);
                 } else {
                     // Initial mock data
-                    const mockPayments: Payment[] = [
+                    loadedPayments = [
                         {
                             id: "1",
                             date: "2024-03-25",
@@ -72,19 +70,24 @@ export default function PaymentHistoryPage() {
                             slipUrl: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&q=80&w=1000",
                         },
                     ];
-
-                    // If user is not admin, filter to show only their payments
-                    if (user?.role !== 'ADMIN') {
-                        const userPayments = mockPayments.filter(p =>
-                            p.tenantName === `${user?.firstName} ${user?.lastName}`
-                        );
-                        setPayments(userPayments);
-                    } else {
-                        setPayments(mockPayments);
-                    }
-                    localStorage.setItem("payments", JSON.stringify(mockPayments));
+                    localStorage.setItem("payments", JSON.stringify(loadedPayments));
                 }
-            }
+
+                // Filter payments based on role
+                if (user?.role !== 'ADMIN') {
+                    const userPayments = loadedPayments.filter(p =>
+                        p.tenantName === `${user?.firstName} ${user?.lastName}`
+                    );
+                    setPayments(userPayments);
+                } else {
+                    setPayments(loadedPayments);
+                }
+            };
+
+            // Use setTimeout to avoid synchronous state update warning
+            setTimeout(() => {
+                loadPayments();
+            }, 0);
         }
     }, [isAuthenticated, user, authLoading, router]);
 

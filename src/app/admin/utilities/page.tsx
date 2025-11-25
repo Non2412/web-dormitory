@@ -34,11 +34,14 @@ export default function UtilitiesPage() {
             if (!isAuthenticated || user?.role !== 'ADMIN') {
                 router.push("/login");
             } else {
-                // Load saved rates
-                const savedWaterRate = localStorage.getItem("waterRate");
-                const savedElectricityRate = localStorage.getItem("electricityRate");
-                if (savedWaterRate) setWaterRate(savedWaterRate);
-                if (savedElectricityRate) setElectricityRate(savedElectricityRate);
+                // Use setTimeout to avoid synchronous state update warning
+                setTimeout(() => {
+                    // Load saved rates
+                    const savedWaterRate = localStorage.getItem("waterRate");
+                    const savedElectricityRate = localStorage.getItem("electricityRate");
+                    if (savedWaterRate) setWaterRate(savedWaterRate);
+                    if (savedElectricityRate) setElectricityRate(savedElectricityRate);
+                }, 0);
             }
         }
     }, [isAuthenticated, user, authLoading, router]);
