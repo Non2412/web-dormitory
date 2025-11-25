@@ -8,15 +8,15 @@ export async function GET(request: Request) {
     const rooms = [
         {
             id: '1',
-            roomNumber: '101',
+            roomNumber: 'Standard Room',
             dormitoryId: '1',
-            floor: 1,
-            capacity: 2,
+            floor: 2,
+            capacity: 350,
             price: 4500,
             status: 'AVAILABLE',
             dormitory: {
                 id: '1',
-                name: 'Dormitory A'
+                name: 'ห้องเล็ก'
             },
             image: '/room1.jpg',
             name: 'ห้องโปรด (Standard)',
@@ -35,15 +35,15 @@ export async function GET(request: Request) {
         },
         {
             id: '2',
-            roomNumber: '102',
+            roomNumber: 'Economy Room',
             dormitoryId: '1',
-            floor: 1,
-            capacity: 2,
+            floor: 5,
+            capacity: 1400,
             price: 6500,
             status: 'AVAILABLE',
             dormitory: {
                 id: '1',
-                name: 'Dormitory A'
+                name: 'ห้องขนาดกลาง'
             },
             image: '/room2.jpg',
             name: 'ห้องมาตรฐาน (Economy)',
@@ -62,15 +62,15 @@ export async function GET(request: Request) {
         },
         {
             id: '3',
-            roomNumber: '201',
+            roomNumber: 'Premium Room',
             dormitoryId: '1',
-            floor: 2,
-            capacity: 4,
+            floor: 10,
+            capacity: 2000,
             price: 8500,
             status: 'AVAILABLE',
             dormitory: {
                 id: '1',
-                name: 'Dormitory A'
+                name: 'ห้องขนาดใหญ่'
             },
             image: '/room3.jpg',
             name: 'ห้องพรีเมียม (Premium)',
