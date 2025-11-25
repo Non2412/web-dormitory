@@ -89,7 +89,7 @@ export default function BookingPage() {
   }
 
   const handleBooking = (roomId: string) => {
-    router.push(`/room/${roomId}`);
+    router.push(`/room/${roomId}?mode=book`);
   };
 
   return (
