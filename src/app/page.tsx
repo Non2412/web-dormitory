@@ -19,14 +19,14 @@ export default function Home() {
             <p>Dormitory Management System</p>
           </div>
           <div className={styles.navLinks}>
-            <a href="#home" className={styles.navLink}>Home</a>
-            <a href="#book" className={styles.navLink}>รายการห้องพัก</a>
-            <a href="#about" className={styles.navLink}>About</a>
-            <a href="#contact" className={styles.navLink}>Contact</a>
-            <a href="/qr_check" className={styles.navLink}>ตรวจสอบ QR</a>
-            <a href="#login" className={styles.loginButton}>
+            <Link href="/" className={styles.navLink}>Home</Link>
+            <Link href="/book" className={styles.navLink}>รายการห้องพัก</Link>
+            <Link href="/about" className={styles.navLink}>About</Link>
+            <Link href="/contact" className={styles.navLink}>Contact</Link>
+            <Link href="/qr_check" className={styles.navLink}>ตรวจสอบ QR</Link>
+            <Link href="/login" className={styles.loginButton}>
               Log In
-            </a>
+            </Link>
           </div>
         </div>
       </nav>
