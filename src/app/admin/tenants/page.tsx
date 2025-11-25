@@ -14,7 +14,12 @@ interface Tenant {
     status: "Active" | "Moving Out";
 }
 
+import { useAuth } from "@/contexts/AuthContext";
+import { useRouter } from "next/navigation";
+
 export default function TenantsPage() {
+    const router = useRouter();
+    const { user, isAuthenticated, loading: authLoading } = useAuth();
     const [tenants, setTenants] = useState<Tenant[]>([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [newTenant, setNewTenant] = useState<Partial<Tenant>>({
@@ -22,36 +27,46 @@ export default function TenantsPage() {
     });
 
     useEffect(() => {
-        // Load tenants from localStorage
-        const savedTenants = localStorage.getItem("tenants");
-        if (savedTenants) {
-            setTenants(JSON.parse(savedTenants));
-        } else {
-            // Initial dummy data
-            const initialTenants: Tenant[] = [
-                {
-                    id: "1",
-                    name: "สมชาย ใจดี",
-                    roomNumber: "101",
-                    phone: "081-234-5678",
-                    email: "somchai@example.com",
-                    moveInDate: "2024-01-15",
-                    status: "Active",
-                },
-                {
-                    id: "2",
-                    name: "วิภาดา รักสงบ",
-                    roomNumber: "202",
-                    phone: "089-987-6543",
-                    email: "wipada@example.com",
-                    moveInDate: "2024-02-01",
-                    status: "Active",
-                },
-            ];
-            setTenants(initialTenants);
-            localStorage.setItem("tenants", JSON.stringify(initialTenants));
+        if (!authLoading) {
+            if (!isAuthenticated || user?.role !== 'ADMIN') {
+                router.push("/login");
+            } else {
+                // Load tenants from localStorage
+                const savedTenants = localStorage.getItem("tenants");
+                if (savedTenants) {
+                    setTenants(JSON.parse(savedTenants));
+                } else {
+                    // Initial dummy data
+                    const initialTenants: Tenant[] = [
+                        {
+                            id: "1",
+                            name: "สมชาย ใจดี",
+                            roomNumber: "101",
+                            phone: "081-234-5678",
+                            email: "somchai@example.com",
+                            moveInDate: "2024-01-15",
+                            status: "Active",
+                        },
+                        {
+                            id: "2",
+                            name: "วิภาดา รักสงบ",
+                            roomNumber: "202",
+                            phone: "089-987-6543",
+                            email: "wipada@example.com",
+                            moveInDate: "2024-02-01",
+                            status: "Active",
+                        },
+                    ];
+                    setTenants(initialTenants);
+                    localStorage.setItem("tenants", JSON.stringify(initialTenants));
+                }
+            }
         }
-    }, []);
+    }, [isAuthenticated, user, authLoading, router]);
+
+    if (authLoading) {
+        return <div style={{ padding: '20px', textAlign: 'center' }}>Loading...</div>;
+    }
 
     const handleSaveTenant = () => {
         if (!newTenant.name || !newTenant.roomNumber) return;

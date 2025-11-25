@@ -5,9 +5,11 @@ import { useRouter } from "next/navigation";
 import styles from "./utilities.module.css";
 import Sidebar from "../components/Sidebar";
 
+import { useAuth } from "@/contexts/AuthContext";
+
 export default function UtilitiesPage() {
     const router = useRouter();
-    const [isAuthorized, setIsAuthorized] = useState(false);
+    const { user, isAuthenticated, loading: authLoading } = useAuth();
 
     // Rates
     const [waterRate, setWaterRate] = useState("18");
@@ -28,18 +30,18 @@ export default function UtilitiesPage() {
     } | null>(null);
 
     useEffect(() => {
-        const token = localStorage.getItem("adminToken");
-        if (!token) {
-            router.push("/login");
-        } else {
-            setIsAuthorized(true);
-            // Load saved rates
-            const savedWaterRate = localStorage.getItem("waterRate");
-            const savedElectricityRate = localStorage.getItem("electricityRate");
-            if (savedWaterRate) setWaterRate(savedWaterRate);
-            if (savedElectricityRate) setElectricityRate(savedElectricityRate);
+        if (!authLoading) {
+            if (!isAuthenticated || user?.role !== 'ADMIN') {
+                router.push("/login");
+            } else {
+                // Load saved rates
+                const savedWaterRate = localStorage.getItem("waterRate");
+                const savedElectricityRate = localStorage.getItem("electricityRate");
+                if (savedWaterRate) setWaterRate(savedWaterRate);
+                if (savedElectricityRate) setElectricityRate(savedElectricityRate);
+            }
         }
-    }, [router]);
+    }, [isAuthenticated, user, authLoading, router]);
 
     const saveRates = () => {
         localStorage.setItem("waterRate", waterRate);
@@ -69,8 +71,8 @@ export default function UtilitiesPage() {
         });
     };
 
-    if (!isAuthorized) {
-        return null;
+    if (authLoading) {
+        return <div style={{ padding: '20px', textAlign: 'center' }}>Loading...</div>;
     }
 
     return (

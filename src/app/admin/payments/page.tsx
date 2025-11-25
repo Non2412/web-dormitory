@@ -14,50 +14,65 @@ interface Payment {
     slipUrl: string;
 }
 
+import { useAuth } from "@/contexts/AuthContext";
+import { useRouter } from "next/navigation";
+
 export default function PaymentHistoryPage() {
+    const router = useRouter();
+    const { user, isAuthenticated, loading: authLoading } = useAuth();
     const [payments, setPayments] = useState<Payment[]>([]);
     const [selectedSlip, setSelectedSlip] = useState<string | null>(null);
 
     useEffect(() => {
-        // Load payments from localStorage
-        const savedPayments = localStorage.getItem("payments");
-        if (savedPayments) {
-            setPayments(JSON.parse(savedPayments));
-        } else {
-            // Initial mock data
-            const mockPayments: Payment[] = [
-                {
-                    id: "1",
-                    date: "2024-03-25",
-                    roomNumber: "101",
-                    tenantName: "สมชาย ใจดี",
-                    amount: 4500,
-                    status: "Pending",
-                    slipUrl: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&q=80&w=1000",
-                },
-                {
-                    id: "2",
-                    date: "2024-03-24",
-                    roomNumber: "202",
-                    tenantName: "วิภาดา รักสงบ",
-                    amount: 5200,
-                    status: "Verified",
-                    slipUrl: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&q=80&w=1000",
-                },
-                {
-                    id: "3",
-                    date: "2024-03-23",
-                    roomNumber: "305",
-                    tenantName: "กานดา มีสุข",
-                    amount: 4800,
-                    status: "Rejected",
-                    slipUrl: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&q=80&w=1000",
-                },
-            ];
-            setPayments(mockPayments);
-            localStorage.setItem("payments", JSON.stringify(mockPayments));
+        if (!authLoading) {
+            if (!isAuthenticated || user?.role !== 'ADMIN') {
+                router.push("/login");
+            } else {
+                // Load payments from localStorage
+                const savedPayments = localStorage.getItem("payments");
+                if (savedPayments) {
+                    setPayments(JSON.parse(savedPayments));
+                } else {
+                    // Initial mock data
+                    const mockPayments: Payment[] = [
+                        {
+                            id: "1",
+                            date: "2024-03-25",
+                            roomNumber: "101",
+                            tenantName: "สมชาย ใจดี",
+                            amount: 4500,
+                            status: "Pending",
+                            slipUrl: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&q=80&w=1000",
+                        },
+                        {
+                            id: "2",
+                            date: "2024-03-24",
+                            roomNumber: "202",
+                            tenantName: "วิภาดา รักสงบ",
+                            amount: 5200,
+                            status: "Verified",
+                            slipUrl: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&q=80&w=1000",
+                        },
+                        {
+                            id: "3",
+                            date: "2024-03-23",
+                            roomNumber: "305",
+                            tenantName: "กานดา มีสุข",
+                            amount: 4800,
+                            status: "Rejected",
+                            slipUrl: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&q=80&w=1000",
+                        },
+                    ];
+                    setPayments(mockPayments);
+                    localStorage.setItem("payments", JSON.stringify(mockPayments));
+                }
+            }
         }
-    }, []);
+    }, [isAuthenticated, user, authLoading, router]);
+
+    if (authLoading) {
+        return <div style={{ padding: '20px', textAlign: 'center' }}>Loading...</div>;
+    }
 
     const handleVerify = (id: string) => {
         const updatedPayments = payments.map((p) =>

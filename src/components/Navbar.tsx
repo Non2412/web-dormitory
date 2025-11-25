@@ -2,31 +2,17 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { useAuth } from "@/contexts/AuthContext";
 import styles from "../app/dormitory/landing.module.css";
 
 export default function Navbar() {
   const router = useRouter();
-  const [currentUser, setCurrentUser] = useState<any>(null);
+  const { user, logout, isAuthenticated } = useAuth();
   const [showUserMenu, setShowUserMenu] = useState(false);
 
-  useEffect(() => {
-    // Check if user is logged in
-    const userStr = localStorage.getItem('currentUser');
-    if (userStr) {
-      try {
-        const user = JSON.parse(userStr);
-        setCurrentUser(user);
-      } catch (error) {
-        console.error('Error parsing user data:', error);
-      }
-    }
-  }, []);
-
-  const handleLogout = () => {
-    localStorage.removeItem('currentUser');
-    localStorage.removeItem('adminToken');
-    setCurrentUser(null);
+  const handleLogout = async () => {
+    await logout();
     setShowUserMenu(false);
     router.push('/login');
   };
@@ -43,11 +29,11 @@ export default function Navbar() {
 
           <div className={styles.navLinks}>
             <Link href="/dormitory" className={styles.navLink}>Home</Link>
-            <Link href={currentUser ? "/book" : "/login"} className={styles.navLink}>รายการห้องพัก</Link>
+            <Link href={isAuthenticated ? "/book" : "/login"} className={styles.navLink}>Rooms</Link>
             <Link href="/about" className={styles.navLink}>About</Link>
-            <Link href="/qr_check" className={styles.navLink}>OCR</Link>
 
-            {currentUser ? (
+
+            {isAuthenticated && user ? (
               <div style={{ position: 'relative' }}>
                 <button
                   onClick={() => setShowUserMenu(!showUserMenu)}
@@ -72,7 +58,7 @@ export default function Navbar() {
                     e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
                   }}
                 >
-                  👤 {currentUser.fullName} ▼
+                  👤 {user?.firstName} {user?.lastName} ▼
                 </button>
                 {showUserMenu && (
                   <div style={{
