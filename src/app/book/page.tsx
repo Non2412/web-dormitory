@@ -4,6 +4,9 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { api, Room } from "@/lib/api";
 import { useAuth } from "@/contexts/AuthContext";
+import Navbar from "@/components/Navbar";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import styles from "./book.module.css";
 
 export default function BookingPage() {
@@ -123,178 +126,104 @@ export default function BookingPage() {
       </div>
     );
   }
+  const router = useRouter();
+
+  useEffect(() => {
+    const user = localStorage.getItem("currentUser");
+    if (!user) {
+      router.push("/login");
+    }
+  }, [router]);
+
+  const rooms = [
+    {
+      _id: "1",
+      type: "ห้องมาตรฐานพร้อมระเบียง",
+      roomStyle: "สตูดิโอ",
+      size: "30 ตร.ม.",
+      priceRange: "6,600 - 12,900 บาท",
+      daily: "800 - 950 บาท",
+      contract: "สั่งจอง",
+      status: "booked",
+    },
+    {
+      _id: "2",
+      type: "ห้องมาตรฐานพิเศษ พร้อมระเบียง",
+      roomStyle: "สตูดิโอ",
+      size: "30 ตร.ม.",
+      priceRange: "6,900 - 15,000 บาท",
+      daily: "850 - 1,000 บาท",
+      contract: "สั่งจอง",
+      status: "booked",
+    },
+    {
+      _id: "3",
+      type: "ห้องซูพีเรีย พร้อมระเบียงและครัว",
+      roomStyle: "1 ห้องนอน",
+      size: "40 ตร.ม.",
+      priceRange: "8,700 - 18,000 บาท",
+      daily: "900 - 1,100 บาท",
+      contract: "สั่งจอง",
+      status: "available",
+    },
+  ];
+
+  const handleBooking = (roomId: string) => {
+    router.push(`/room/${roomId}`);
+  };
 
   return (
-    <div className={styles.container}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-        <h1 className={styles.title}>ห้องพักที่พร้อมให้บริการ</h1>
-        {user && (
-          <div style={{ color: '#fff', fontSize: '14px' }}>
-            ยินดีต้อนรับ, {user.firstName} {user.lastName}
-          </div>
-        )}
-      </div>
+    <>
+      <Navbar />
+      <div className={styles.container}>
+        <h1 className={styles.title}>ประเภทห้อง</h1>
 
-      {rooms.length === 0 ? (
-        <div style={{ textAlign: 'center', padding: '50px', color: '#fff' }}>
-          <h2>ไม่มีห้องพักว่างในขณะนี้</h2>
-        </div>
-      ) : (
         <table className={styles.table}>
           <thead>
             <tr>
               <th></th>
-              <th>หมายเลขห้อง</th>
-              <th>ชั้น</th>
-              <th>ความจุ (คน)</th>
-              <th>ราคา/เดือน</th>
+              <th>ประเภท</th>
+              <th>รูปแบบห้อง</th>
+              <th>ขนาด</th>
+              <th>รายเดือน<br />(สัญญา 1 ปี)</th>
+              <th>ค่าเช่ารายวัน</th>
+              <th>สัญญาต่ำกว่า 1 ปี</th>
               <th>สถานะ</th>
-              <th>การจัดการ</th>
             </tr>
           </thead>
 
           <tbody>
             {rooms.map((room) => (
-              <tr key={room.id}>
+              <tr key={room._id}>
                 <td className={styles.arrow}>&gt;</td>
-                <td>{room.roomNumber}</td>
-                <td>{room.floor}</td>
-                <td>{room.capacity}</td>
-                <td>{room.price.toLocaleString('th-TH')} บาท</td>
-                <td>
-                  <span className={getStatusClass(room.status)}>
-                    {getStatusText(room.status)}
-                  </span>
+                <td>{room.type}</td>
+                <td>{room.roomStyle}</td>
+                <td>{room.size}</td>
+                <td>{room.priceRange}</td>
+                <td>{room.daily}</td>
+                <td
+                  className={styles.link}
+                  onClick={() => handleBooking(room._id)}
+                  style={{ cursor: 'pointer' }}
+                >
+                  {room.contract}
                 </td>
                 <td>
-                  {room.status === 'AVAILABLE' && (
-                    <button
-                      onClick={() => handleBookRoom(room)}
-                      style={{
-                        padding: '8px 16px',
-                        backgroundColor: '#4CAF50',
-                        color: 'white',
-                        border: 'none',
-                        borderRadius: '4px',
-                        cursor: 'pointer',
-                        fontSize: '14px',
-                      }}
-                    >
-                      จองห้อง
-                    </button>
-                  )}
+                  <span
+                    className={
+                      room.status === "available"
+                        ? styles.available
+                        : styles.booked
+                    }
+                  >
+                    {room.status === "available" ? "ว่าง" : "เต็ม"}
+                  </span>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
-      )}
-
-      {/* Booking Modal */}
-      {showBookingModal && bookingRoom && (
-        <div style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundColor: 'rgba(0, 0, 0, 0.7)',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          zIndex: 1000,
-        }}>
-          <div style={{
-            backgroundColor: '#1a1a2e',
-            padding: '30px',
-            borderRadius: '12px',
-            maxWidth: '500px',
-            width: '90%',
-            color: '#fff',
-          }}>
-            <h2 style={{ marginBottom: '20px' }}>จองห้อง {bookingRoom.roomNumber}</h2>
-
-            <div style={{ marginBottom: '15px' }}>
-              <p><strong>ชั้น:</strong> {bookingRoom.floor}</p>
-              <p><strong>ความจุ:</strong> {bookingRoom.capacity} คน</p>
-              <p><strong>ราคา:</strong> {bookingRoom.price.toLocaleString('th-TH')} บาท/เดือน</p>
-            </div>
-
-            <div style={{ marginBottom: '15px' }}>
-              <label style={{ display: 'block', marginBottom: '5px' }}>วันที่เริ่มต้น:</label>
-              <input
-                type="date"
-                value={bookingDates.startDate}
-                onChange={(e) => setBookingDates({ ...bookingDates, startDate: e.target.value })}
-                style={{
-                  width: '100%',
-                  padding: '10px',
-                  borderRadius: '4px',
-                  border: '1px solid #ccc',
-                  backgroundColor: '#fff',
-                  color: '#000',
-                }}
-                min={new Date().toISOString().split('T')[0]}
-              />
-            </div>
-
-            <div style={{ marginBottom: '20px' }}>
-              <label style={{ display: 'block', marginBottom: '5px' }}>วันที่สิ้นสุด:</label>
-              <input
-                type="date"
-                value={bookingDates.endDate}
-                onChange={(e) => setBookingDates({ ...bookingDates, endDate: e.target.value })}
-                style={{
-                  width: '100%',
-                  padding: '10px',
-                  borderRadius: '4px',
-                  border: '1px solid #ccc',
-                  backgroundColor: '#fff',
-                  color: '#000',
-                }}
-                min={bookingDates.startDate || new Date().toISOString().split('T')[0]}
-              />
-            </div>
-
-            <div style={{ display: 'flex', gap: '10px' }}>
-              <button
-                onClick={handleConfirmBooking}
-                style={{
-                  flex: 1,
-                  padding: '12px',
-                  backgroundColor: '#4CAF50',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '4px',
-                  cursor: 'pointer',
-                  fontSize: '16px',
-                }}
-              >
-                ยืนยันการจอง
-              </button>
-              <button
-                onClick={() => {
-                  setShowBookingModal(false);
-                  setBookingRoom(null);
-                  setBookingDates({ startDate: "", endDate: "" });
-                }}
-                style={{
-                  flex: 1,
-                  padding: '12px',
-                  backgroundColor: '#f44336',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '4px',
-                  cursor: 'pointer',
-                  fontSize: '16px',
-                }}
-              >
-                ยกเลิก
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
+      </div>
+    </>
   );
 }

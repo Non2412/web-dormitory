@@ -1,5 +1,5 @@
 .container {
-  --background: #fafafa;
+  --background: #f5f5f5;
   --foreground: #fff;
 
   --text-primary: #000;
@@ -9,81 +9,229 @@
   --button-secondary-hover: #f2f2f2;
   --button-secondary-border: #ebebeb;
 
-
   min-height: 100vh;
-  align-items: center;
-  justify-content: center;
+  padding: 120px 20px 40px 20px;
+  background-image: url('https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?q=80&w=2071');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  position: relative;
   font-family: var(--font-geist-sans);
-  background-color: var(--background);
+  animation: fadeIn 0.6s ease-in;
+}
+
+.container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.85);
+  z-index: 0;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .title {
-  color: rgb(189, 119, 247);
-  font-size: 28px;
-  margin-bottom: 20px;
-  font-weight: 600;
+  color: #333;
+  font-size: 42px;
+  margin-bottom: 30px;
+  font-weight: 700;
+  text-align: center;
+  letter-spacing: 1px;
+  animation: slideDown 0.8s ease-out;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .table {
   width: 100%;
-  border-collapse: collapse;
-  background: #fff;
-  border-radius: 12px;
+  max-width: 1400px;
+  margin: 0 auto;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: scaleIn 0.5s ease-out 0.2s both;
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 .table th {
-  background: #f7f7f7;
-  color: rgb(189, 119, 247);
-  padding: 14px 10px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #fff;
+  padding: 18px 15px;
   font-weight: 600;
   text-align: left;
   font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  position: relative;
+}
+
+.table th::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.3);
 }
 
 .table td {
-  padding: 14px 10px;
-  color: black;
-  border-bottom: 1px solid #eee;
+  padding: 18px 15px;
+  color: #333;
+  border-bottom: 1px solid #f0f0f0;
   font-size: 15px;
+  transition: all 0.3s ease;
 }
 
 .arrow {
-  color: #888;
+  color: #667eea;
   font-weight: bold;
+  font-size: 18px;
 }
 
 .link {
-  color: #1a73e8;
+  color: #667eea;
   cursor: pointer;
+  font-weight: 600;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.link:hover {
+  color: #764ba2;
+  transform: scale(1.05);
+}
+
+.link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #667eea, #764ba2);
+  transition: width 0.3s ease;
+}
+
+.link:hover::after {
+  width: 100%;
 }
 
 .available {
-  background-color: #d1f2e5;
-  color: #0b8043;
-  padding: 6px 14px;
-  border-radius: 16px;
+  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 20px;
   font-weight: 600;
+  font-size: 13px;
+  display: inline-block;
+  box-shadow: 0 4px 15px rgba(17, 153, 142, 0.3);
+  transition: all 0.3s ease;
+}
+
+.available:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(17, 153, 142, 0.4);
 }
 
 .booked {
-  background-color: #fde0db;
-  color: #d93025;
-  padding: 6px 14px;
-  border-radius: 16px;
+  background: linear-gradient(135deg, #ee0979 0%, #ff6a00 100%);
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 20px;
   font-weight: 600;
+  font-size: 13px;
+  display: inline-block;
+  box-shadow: 0 4px 15px rgba(238, 9, 121, 0.3);
+  transition: all 0.3s ease;
 }
 
-.maintenance {
-  background-color: #fff3cd;
-  color: #856404;
-  padding: 6px 14px;
-  border-radius: 16px;
-  font-weight: 600;
+.booked:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(238, 9, 121, 0.4);
 }
 
-.table tr:hover {
-  background: #fafafa;
-  transition: 0.2s ease;
+.table tbody tr {
+  transition: all 0.3s ease;
+  animation: slideInRow 0.5s ease-out both;
+}
+
+.table tbody tr:nth-child(1) {
+  animation-delay: 0.3s;
+}
+
+.table tbody tr:nth-child(2) {
+  animation-delay: 0.4s;
+}
+
+.table tbody tr:nth-child(3) {
+  animation-delay: 0.5s;
+}
+
+@keyframes slideInRow {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.table tbody tr:hover {
+  background: linear-gradient(90deg, rgba(102, 126, 234, 0.08), rgba(118, 75, 162, 0.08));
+  transform: scale(1.02);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.15);
+}
+
+.table tbody tr:last-child td {
+  border-bottom: none;
 }

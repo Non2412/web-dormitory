@@ -1,0 +1,236 @@
+.mainContent {
+    margin-left: 280px;
+    padding: 2rem;
+    min-height: 100vh;
+    background: #f8f9fc;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.header h1 {
+    font-size: 2rem;
+    color: #1a202c;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+.tableContainer {
+    background: white;
+    border-radius: 20px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    overflow-x: auto;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 800px;
+}
+
+.table th {
+    text-align: left;
+    padding: 1.2rem 1rem;
+    color: #718096;
+    font-weight: 600;
+    border-bottom: 2px solid #e2e8f0;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.table td {
+    padding: 1.2rem 1rem;
+    border-bottom: 1px solid #e2e8f0;
+    color: #2d3748;
+    vertical-align: middle;
+}
+
+.table tr:last-child td {
+    border-bottom: none;
+}
+
+.table tr:hover td {
+    background: #f7fafc;
+}
+
+.tenantName {
+    font-weight: 600;
+    color: #2d3748;
+}
+
+.amount {
+    font-weight: 700;
+    color: #667eea;
+}
+
+.statusBadge {
+    padding: 0.4rem 1rem;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.statusPending {
+    background: #fffaf0;
+    color: #dd6b20;
+    border: 1px solid #fbd38d;
+}
+
+.statusVerified {
+    background: #f0fff4;
+    color: #38a169;
+    border: 1px solid #9ae6b4;
+}
+
+.statusRejected {
+    background: #fff5f5;
+    color: #e53e3e;
+    border: 1px solid #feb2b2;
+}
+
+.viewSlipBtn {
+    background: white;
+    border: 1px solid #e2e8f0;
+    color: #4a5568;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.viewSlipBtn:hover {
+    background: #f7fafc;
+    border-color: #cbd5e0;
+    color: #2d3748;
+    transform: translateY(-1px);
+}
+
+/* Modal Styles */
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(4px);
+}
+
+.modal {
+    background: white;
+    padding: 2rem;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 600px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+    animation: slideUp 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.modalHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modalHeader h2 {
+    margin: 0;
+    color: #1a202c;
+    font-size: 1.5rem;
+}
+
+.closeButton {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: #a0aec0;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.closeButton:hover {
+    color: #4a5568;
+}
+
+.slipImageContainer {
+    width: 100%;
+    background: #f7fafc;
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #e2e8f0;
+}
+
+.slipImage {
+    max-width: 100%;
+    max-height: 70vh;
+    object-fit: contain;
+}
+
+.modalActions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+
+.actionButton {
+    padding: 0.8rem 1.5rem;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+}
+
+.verifyButton {
+    background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(72, 187, 120, 0.3);
+}
+
+.verifyButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(72, 187, 120, 0.4);
+}
+
+.rejectButton {
+    background: white;
+    border: 1px solid #feb2b2;
+    color: #e53e3e;
+}
+
+.rejectButton:hover {
+    background: #fff5f5;
+}
