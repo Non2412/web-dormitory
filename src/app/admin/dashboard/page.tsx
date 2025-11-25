@@ -6,43 +6,45 @@ import Sidebar from "../components/Sidebar";
 import styles from "./dashboard.module.css";
 import SlipVerifier from "./SlipVerifier";
 
+import { useAuth } from "@/contexts/AuthContext";
+
 export default function AdminDashboard() {
     const router = useRouter();
-    const [isAuthorized, setIsAuthorized] = useState(false);
+    const { user, isAuthenticated, loading: authLoading } = useAuth();
     const [stats, setStats] = useState<any>(null);
     const [payments, setPayments] = useState<any[]>([]);
     const [activities, setActivities] = useState<any[]>([]);
-    const [loading, setLoading] = useState(true);
+    const [dataLoading, setDataLoading] = useState(true);
 
     useEffect(() => {
-        const token = localStorage.getItem("adminToken");
-        if (!token) {
-            router.push("/login");
-        } else {
-            setIsAuthorized(true);
-            // Fetch dashboard stats and payments
-            (async () => {
-                try {
-                    const statsRes = await api.getDashboardStats();
-                    setStats(statsRes.data);
-                    const paymentsRes = await api.getPayments();
-                    setPayments(paymentsRes.data);
-                    // Example: fetch activities from /dashboard endpoint if available
+        if (!authLoading) {
+            if (!isAuthenticated || user?.role !== 'ADMIN') {
+                router.push("/login");
+            } else {
+                // Fetch dashboard stats and payments
+                (async () => {
                     try {
-                        const dashboardRes = await api.getDashboard();
-                        setActivities(dashboardRes.data.activities || []);
-                    } catch {}
-                } catch (err) {
-                    console.error("Dashboard API error:", err);
-                } finally {
-                    setLoading(false);
-                }
-            })();
+                        const statsRes = await api.getDashboardStats();
+                        setStats(statsRes.data);
+                        const paymentsRes = await api.getPayments();
+                        setPayments(paymentsRes.data);
+                        // Example: fetch activities from /dashboard endpoint if available
+                        try {
+                            const dashboardRes = await api.getDashboard();
+                            setActivities(dashboardRes.data.activities || []);
+                        } catch { }
+                    } catch (err) {
+                        console.error("Dashboard API error:", err);
+                    } finally {
+                        setDataLoading(false);
+                    }
+                })();
+            }
         }
-    }, [router]);
+    }, [isAuthenticated, user, authLoading, router]);
 
-    if (!isAuthorized || loading) {
-        return null;
+    if (authLoading || dataLoading) {
+        return <div style={{ padding: '20px', textAlign: 'center' }}>Loading...</div>;
     }
 
     return (

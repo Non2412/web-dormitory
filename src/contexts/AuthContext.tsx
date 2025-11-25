@@ -6,7 +6,7 @@ import { api, User, AuthResponse } from '@/lib/api';
 interface AuthContextType {
     user: User | null;
     loading: boolean;
-    login: (email: string, password: string) => Promise<void>;
+    login: (email: string, password: string) => Promise<User | null>;
     register: (data: RegisterData) => Promise<void>;
     logout: () => Promise<void>;
     isAuthenticated: boolean;
@@ -53,7 +53,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         }
     };
 
-    const login = async (email: string, password: string) => {
+    const login = async (email: string, password: string): Promise<User | null> => {
         try {
             const response: AuthResponse = await api.login({ email, password });
 
@@ -64,7 +64,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
                 // Set user
                 setUser(response.data.user);
+                return response.data.user;
             }
+            return null;
         } catch (error) {
             throw error;
         }

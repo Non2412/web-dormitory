@@ -12,7 +12,12 @@ interface Room {
     tenant?: string;
 }
 
+import { useAuth } from "@/contexts/AuthContext";
+import { useRouter } from "next/navigation";
+
 export default function RoomsPage() {
+    const router = useRouter();
+    const { user, isAuthenticated, loading: authLoading } = useAuth();
     const [rooms, setRooms] = useState<Room[]>([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [newRoom, setNewRoom] = useState<Partial<Room>>({
@@ -20,21 +25,31 @@ export default function RoomsPage() {
     });
 
     useEffect(() => {
-        // Load rooms from localStorage
-        const savedRooms = localStorage.getItem("rooms");
-        if (savedRooms) {
-            setRooms(JSON.parse(savedRooms));
-        } else {
-            // Initial dummy data
-            const initialRooms: Room[] = [
-                { id: "1", number: "101", price: 4500, status: "Occupied", tenant: "John Doe" },
-                { id: "2", number: "102", price: 4500, status: "Available" },
-                { id: "3", number: "201", price: 5000, status: "Available" },
-            ];
-            setRooms(initialRooms);
-            localStorage.setItem("rooms", JSON.stringify(initialRooms));
+        if (!authLoading) {
+            if (!isAuthenticated || user?.role !== 'ADMIN') {
+                router.push("/login");
+            } else {
+                // Load rooms from localStorage
+                const savedRooms = localStorage.getItem("rooms");
+                if (savedRooms) {
+                    setRooms(JSON.parse(savedRooms));
+                } else {
+                    // Initial dummy data
+                    const initialRooms: Room[] = [
+                        { id: "1", number: "101", price: 4500, status: "Occupied", tenant: "John Doe" },
+                        { id: "2", number: "102", price: 4500, status: "Available" },
+                        { id: "3", number: "201", price: 5000, status: "Available" },
+                    ];
+                    setRooms(initialRooms);
+                    localStorage.setItem("rooms", JSON.stringify(initialRooms));
+                }
+            }
         }
-    }, []);
+    }, [isAuthenticated, user, authLoading, router]);
+
+    if (authLoading) {
+        return <div style={{ padding: '20px', textAlign: 'center' }}>Loading...</div>;
+    }
 
     const handleSaveRoom = () => {
         if (!newRoom.number || !newRoom.price) return;

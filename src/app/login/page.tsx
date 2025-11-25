@@ -20,48 +20,22 @@ export default function Login() {
     setError("");
 
     try {
-      await login(email, password);
-      alert("เข้าสู่ระบบสำเร็จ!");
-      router.push("/book");
+      const user = await login(email, password);
+
+      if (user) {
+        alert("เข้าสู่ระบบสำเร็จ!");
+        if (user.role === 'ADMIN') {
+          router.push("/admin/dashboard");
+        } else {
+          router.push("/book");
+        }
+      } else {
+        // Should not happen if login throws on error, but good for safety
+        throw new Error("Login failed");
+      }
     } catch (err: any) {
       console.error("Login error:", err);
       setError(err.message || "อีเมลหรือรหัสผ่านไม่ถูกต้อง");
-
-      // Fallback local login (demo/admin)
-      if (email === "admin@dorm.com" && password === "admin123") {
-        localStorage.setItem("adminToken", "demo-token-123");
-        localStorage.setItem('currentUser', JSON.stringify({
-          fullName: "Administrator",
-          email: "admin@dorm.com",
-          role: "admin",
-          loginTime: new Date().toISOString(),
-        }));
-        alert("เข้าสู่ระบบ Admin สำเร็จ");
-        router.push("/admin/dashboard");
-        setIsLoading(false);
-        return;
-      }
-
-      const existingUsers = localStorage.getItem('users');
-      if (!existingUsers) {
-        alert("ไม่พบผู้ใช้ในระบบ กรุณาสมัครสมาชิกก่อน");
-        setIsLoading(false);
-        return;
-      }
-      const users = JSON.parse(existingUsers);
-      const user = users.find((u: any) => u.email === email && u.password === password);
-      if (user) {
-        localStorage.setItem('currentUser', JSON.stringify({
-          fullName: user.fullName,
-          email: user.email,
-          phone: user.phone,
-          loginTime: new Date().toISOString(),
-        }));
-        alert(`เข้าสู่ระบบสำเร็จ!\nยินดีต้อนรับคุณ ${user.fullName}`);
-        router.push('/dormitory');
-      } else {
-        alert("อีเมลหรือรหัสผ่านไม่ถูกต้อง!");
-      }
       setIsLoading(false);
     }
   };

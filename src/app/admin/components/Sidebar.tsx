@@ -3,13 +3,15 @@
 import { useRouter, usePathname } from "next/navigation";
 import styles from "./Sidebar.module.css";
 
+import { useAuth } from "@/contexts/AuthContext";
+
 export default function Sidebar() {
     const router = useRouter();
     const pathname = usePathname();
+    const { logout } = useAuth();
 
-    const handleLogout = () => {
-        localStorage.removeItem("adminToken");
-        localStorage.removeItem("currentUser");
+    const handleLogout = async () => {
+        await logout();
         router.push("/login");
     };
 
