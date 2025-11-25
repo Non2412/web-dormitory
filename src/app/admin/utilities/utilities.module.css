@@ -1,13 +1,13 @@
 .mainContent {
     margin-left: 280px;
     min-height: 100vh;
+    background: #f8f9fc;
 }
 
 .container {
     padding: 40px;
-    background: linear-gradient(135deg, #0f1b33 0%, #1a2b4b 100%);
     min-height: 100vh;
-    color: #ffffff;
+    color: #2d3748;
 }
 
 .header {
@@ -20,17 +20,14 @@
 .title {
     font-size: 32px;
     font-weight: 800;
-    background: linear-gradient(90deg, #ffffff, #00d4ff);
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: #1a202c;
     letter-spacing: -0.5px;
 }
 
 .backBtn {
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: white;
+    background: white;
+    border: 1px solid #e2e8f0;
+    color: #4a5568;
     padding: 12px 24px;
     border-radius: 10px;
     cursor: pointer;
@@ -40,8 +37,9 @@
 }
 
 .backBtn:hover {
-    background: rgba(255, 255, 255, 0.2);
+    background: #f7fafc;
     transform: translateX(-5px);
+    border-color: #cbd5e0;
 }
 
 .grid {
@@ -51,19 +49,18 @@
 }
 
 .card {
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: white;
     padding: 30px;
     border-radius: 20px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .cardTitle {
     font-size: 24px;
     font-weight: 700;
     margin-bottom: 30px;
-    color: rgba(255, 255, 255, 0.9);
+    color: #2d3748;
 }
 
 .formGroup {
@@ -74,8 +71,8 @@
     display: block;
     margin-bottom: 10px;
     font-size: 14px;
-    font-weight: 500;
-    color: rgba(255, 255, 255, 0.7);
+    font-weight: 600;
+    color: #718096;
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
@@ -83,27 +80,27 @@
 .input {
     width: 100%;
     padding: 14px 16px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: #fff;
+    border: 1px solid #e2e8f0;
     border-radius: 12px;
-    color: white;
+    color: #2d3748;
     font-size: 16px;
     transition: all 0.3s ease;
 }
 
 .input:focus {
     outline: none;
-    border-color: #00d4ff;
-    background: rgba(255, 255, 255, 0.1);
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
 
 .input::placeholder {
-    color: rgba(255, 255, 255, 0.3);
+    color: #a0aec0;
 }
 
 .input option {
-    background: #1a2b4b;
-    color: #ffffff;
+    background: #fff;
+    color: #2d3748;
     padding: 10px;
 }
 
@@ -117,7 +114,7 @@
 .calculateBtn {
     width: 100%;
     padding: 16px;
-    background: linear-gradient(90deg, #00d4ff, #0051ff);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
     border: none;
     border-radius: 12px;
@@ -125,7 +122,7 @@
     font-weight: 700;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 20px rgba(0, 81, 255, 0.3);
+    box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
     text-transform: uppercase;
     letter-spacing: 1px;
     margin-top: 10px;
@@ -134,38 +131,38 @@
 .saveBtn:hover,
 .calculateBtn:hover {
     transform: translateY(-3px);
-    box-shadow: 0 8px 30px rgba(0, 81, 255, 0.5);
+    box-shadow: 0 8px 30px rgba(102, 126, 234, 0.5);
 }
 
 .result {
     margin-top: 30px;
     padding: 25px;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+    background: #f7fafc;
     border-radius: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid #e2e8f0;
 }
 
 .result h3 {
     margin-top: 0;
     margin-bottom: 20px;
     font-size: 18px;
-    color: #00d4ff;
+    color: #5a67d8;
 }
 
 .resultRow {
     display: flex;
     justify-content: space-between;
     padding: 15px 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid #e2e8f0;
     font-size: 16px;
 }
 
 .resultRow span {
-    color: rgba(255, 255, 255, 0.7);
+    color: #718096;
 }
 
 .resultRow strong {
-    color: #00ff8c;
+    color: #48bb78;
     font-size: 18px;
 }
 
@@ -179,10 +176,10 @@
 }
 
 .resultTotal span {
-    color: #fff;
+    color: #2d3748;
 }
 
 .resultTotal strong {
-    color: #00d4ff;
+    color: #667eea;
     font-size: 28px;
 }
