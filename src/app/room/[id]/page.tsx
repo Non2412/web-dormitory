@@ -110,7 +110,14 @@ export default function RoomDetail() {
   }
 
   const handleBook = () => {
-    alert(`จองห้อง ${room.name} จำนวน ${quantity} ห้อง สำเร็จ!`);
+    // Navigate to payment page with room details
+    const params = new URLSearchParams({
+      roomId: room.id.toString(),
+      roomName: room.name,
+      price: room.price.toString(),
+      quantity: quantity.toString()
+    });
+    router.push(`/payment?${params.toString()}`);
   };
 
   return (
