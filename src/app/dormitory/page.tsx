@@ -6,7 +6,6 @@ import { useState, useEffect } from "react";
 import styles from "./landing.module.css";
 
 export default function Home() {
-  const [enlargedImage, setEnlargedImage] = useState<string | null>(null);
   const router = useRouter();
   const [currentUser, setCurrentUser] = useState<any>(null);
   const [showUserMenu, setShowUserMenu] = useState(false);
@@ -54,7 +53,7 @@ export default function Home() {
           <div className={styles.navLinks}>
             <a href="#home" className={styles.navLink}>Home</a>
             <Link href="/book" className={styles.navLink}>รายการห้องพัก</Link>
-            <a href="#about" className={styles.navLink}>About</a>
+            <Link href="/about" className={styles.navLink}>เกี่ยวกับ</Link>
             <a href="#contact" className={styles.navLink}>Contact</a>
             {currentUser ? (
               <div style={{ position: 'relative' }}>
@@ -134,7 +133,7 @@ export default function Home() {
       </nav>
 
       {/* Hero Section */}
-      <section className={styles.hero}>
+      <section className={styles.hero} id="home">
         <div className={styles.heroOverlay}>
           <div className={styles.heroContent}>
             <h1 className={styles.heroTitle}>
@@ -158,118 +157,69 @@ export default function Home() {
       </section>
 
       {/* Rooms Gallery Section */}
-      <section id="book" style={{ padding: '80px 30px', background: '#f8f9fa' }}>
-        <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
-          <h2 className={styles.sectionTitle} style={{ marginBottom: '50px' }}>รายการห้องพัก</h2>
+      <section id="book" className={styles.roomsSection}>
+        <div className={styles.roomsContent}>
+          <h2 className={styles.sectionTitle}>รายการห้องพัก</h2>
 
           {/* Equal Size Grid Gallery */}
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-            gap: '30px',
-            marginBottom: '50px'
-          }}>
+          <div className={styles.roomsGrid}>
             {galleryImages.map((room) => (
               <div
                 key={room.id}
                 onClick={() => handleRoomClick(room.id)}
-                style={{
-                  position: 'relative',
-                  overflow: 'hidden',
-                  borderRadius: '12px',
-                  cursor: 'pointer',
-                  backgroundColor: '#e0e0e0',
-                  aspectRatio: '1 / 1',
-                  boxShadow: '0 4px 15px rgba(0,0,0,0.1)',
-                  transition: 'all 0.3s ease'
-                }}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-8px)';
-                  (e.currentTarget as HTMLDivElement).style.boxShadow = '0 12px 30px rgba(0,0,0,0.2)';
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLDivElement).style.transform = 'translateY(0)';
-                  (e.currentTarget as HTMLDivElement).style.boxShadow = '0 4px 15px rgba(0,0,0,0.1)';
-                }}
+                className={styles.roomCard}
+                style={{ cursor: 'pointer' }}
               >
-                <img
-                  src={room.src}
-                  alt={room.name}
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
-                    transition: 'transform 0.3s ease'
-                  }}
-                  onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLImageElement).style.transform = 'scale(1.08)';
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLImageElement).style.transform = 'scale(1)';
-                  }}
-                />
-
-                {/* Overlay */}
-                <div style={{
-                  position: 'absolute',
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                  background: 'rgba(0,0,0,0)',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  transition: 'all 0.3s ease'
-                }}
-                  onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLDivElement).style.background = 'rgba(0,0,0,0.4)';
-                    const icon = (e.currentTarget as HTMLDivElement).querySelector('span');
-                    const text = (e.currentTarget as HTMLDivElement).querySelector('p');
-                    if (icon) {
-                      (icon as HTMLSpanElement).style.opacity = '1';
-                      (icon as HTMLSpanElement).style.transform = 'scale(1)';
-                    }
-                    if (text) {
-                      (text as HTMLParagraphElement).style.opacity = '1';
-                      (text as HTMLParagraphElement).style.transform = 'translateY(0)';
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLDivElement).style.background = 'rgba(0,0,0,0)';
-                    const icon = (e.currentTarget as HTMLDivElement).querySelector('span');
-                    const text = (e.currentTarget as HTMLDivElement).querySelector('p');
-                    if (icon) {
-                      (icon as HTMLSpanElement).style.opacity = '0';
-                      (icon as HTMLSpanElement).style.transform = 'scale(0.8)';
-                    }
-                    if (text) {
-                      (text as HTMLParagraphElement).style.opacity = '0';
-                      (text as HTMLParagraphElement).style.transform = 'translateY(10px)';
-                    }
-                  }}
-                >
-                  <span style={{
-                    fontSize: '40px',
-                    transition: 'all 0.3s ease',
+                <div className={styles.roomImageBox}>
+                  {/* Using roomSvg class for consistent sizing if needed, or just img */}
+                  <img
+                    src={room.src}
+                    alt={room.name}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      position: 'absolute',
+                      top: 0,
+                      left: 0
+                    }}
+                  />
+                  {/* Overlay for hover effect */}
+                  <div style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    background: 'rgba(0,0,0,0.4)',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
                     opacity: 0,
-                    transform: 'scale(0.8)',
-                    marginBottom: '10px'
-                  }}>
-                    🔍
-                  </span>
-                  <p style={{
-                    color: 'white',
-                    fontSize: '16px',
-                    fontWeight: 'bold',
-                    transition: 'all 0.3s ease',
-                    opacity: 0,
-                    transform: 'translateY(10px)',
-                    margin: 0
-                  }}>
-                    ดูรายละเอียด
-                  </p>
+                    transition: 'opacity 0.3s ease'
+                  }}
+                    className="hover-overlay"
+                    onMouseEnter={(e) => e.currentTarget.style.opacity = '1'}
+                    onMouseLeave={(e) => e.currentTarget.style.opacity = '0'}
+                  >
+                    <span style={{ fontSize: '40px', marginBottom: '10px' }}>🔍</span>
+                    <p style={{ color: 'white', fontWeight: 'bold', margin: 0 }}>ดูรายละเอียด</p>
+                  </div>
+                </div>
+                <div className={styles.roomInfo}>
+                  <h3>{room.name}</h3>
+                  <p className={styles.roomNameEn}>Premium Room</p>
+                  <div className={styles.roomPrice}>
+                    <span className={styles.price}>฿4,500</span>
+                    <span className={styles.priceMonth}>/ เดือน</span>
+                  </div>
+                  <ul className={styles.roomFeatures}>
+                    <li>เตียง 6 ฟุต</li>
+                    <li>เครื่องปรับอากาศ</li>
+                    <li>เฟอร์นิเจอร์ครบ</li>
+                    <li>ฟรี Wi-Fi</li>
+                  </ul>
                 </div>
               </div>
             ))}
@@ -307,7 +257,7 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className={styles.footer}>
+      <footer className={styles.footer} id="contact">
         <div className={styles.footerContent}>
           <div className={styles.footerSection}>
             <h3>ระบบจัดการหอพัก</h3>

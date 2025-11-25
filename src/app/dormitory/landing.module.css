@@ -50,11 +50,12 @@
 
 .navLink {
   text-decoration: none;
-  color: #555;
+  color: #333;
   font-weight: 500;
   font-size: 0.95rem;
   transition: color 0.3s ease;
   position: relative;
+  cursor: pointer;
 }
 
 .navLink::after {
@@ -103,7 +104,7 @@
   min-height: calc(100vh - 70px);
   background: linear-gradient(135deg, #f5f7ff 0%, #e8eef8 100%);
   background-image: url('https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=1200&q=80'),
-                    linear-gradient(135deg, rgba(245, 247, 255, 0.9) 0%, rgba(232, 238, 248, 0.9) 100%);
+    linear-gradient(135deg, rgba(245, 247, 255, 0.9) 0%, rgba(232, 238, 248, 0.9) 100%);
   background-size: cover, cover;
   background-position: center, center;
   background-attachment: fixed;
@@ -121,7 +122,7 @@
   right: 0;
   width: 60%;
   height: 100%;
-  background-image: 
+  background-image:
     url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 400 600%22><defs><linearGradient id=%22grad%22 x1=%220%25%22 y1=%220%25%22 x2=%22100%25%22 y2=%22100%25%22><stop offset=%220%25%22 style=%22stop-color:%23e0e7ff;stop-opacity:0.3%22/><stop offset=%22100%25%22 style=%22stop-color:%23c7d2ff;stop-opacity:0.3%22/></linearGradient></defs><rect width=%22400%22 height=%22600%22 fill=%22url(%23grad)%22/><g opacity=%220.2%22><rect x=%2250%22 y=%2280%22 width=%22120%22 height=%22200%22 fill=%22%234f46e5%22/><polygon points=%22110,80 160,20 60,20%22 fill=%22%234f46e5%22/><rect x=%22180%22 y=%2250%22 width=%22140%22 height=%22220%22 fill=%22%234f46e5%22/><polygon points=%22250,50 310,0 190,0%22 fill=%22%234f46e5%22/><circle cx=%2280%22 cy=%22180%22 r=%2215%22 fill=%22%238b9cc9%22/><circle cx=%22120%22 cy=%22180%22 r=%2215%22 fill=%22%238b9cc9%22/><circle cx=%22210%22 cy=%22150%22 r=%2218%22 fill=%22%238b9cc9%22/><circle cx=%22260%22 cy=%22180%22 r=%2218%22 fill=%22%238b9cc9%22/></g></svg>');
   background-size: contain;
   background-repeat: no-repeat;
@@ -222,6 +223,7 @@
     opacity: 0;
     transform: translateY(30px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
