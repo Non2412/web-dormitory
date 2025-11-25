@@ -1,6 +1,6 @@
 // API Configuration
 // Backend now supports CORS, so we can call it directly
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000/api';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || (typeof window !== 'undefined' ? '/api' : 'http://localhost:3000/api');
 
 // Types
 export interface User {
