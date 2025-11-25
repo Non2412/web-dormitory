@@ -30,7 +30,7 @@ export default function Navbar() {
           <div className={styles.navLinks}>
             <Link href="/dormitory" className={styles.navLink}>Home</Link>
             <Link href={isAuthenticated ? "/book" : "/login"} className={styles.navLink}>Rooms</Link>
-            <Link href="/about" className={styles.navLink}>About</Link>
+            <Link href="/about-us" className={styles.navLink}>About</Link>
 
 
             {isAuthenticated && user ? (
