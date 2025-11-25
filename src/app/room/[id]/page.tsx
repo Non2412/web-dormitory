@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useParams, useRouter } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 
@@ -83,10 +83,12 @@ const roomsData: Record<number, Room> = {
 export default function RoomDetail() {
   const params = useParams();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [quantity, setQuantity] = useState(1);
 
   const roomId = parseInt(params?.id as string);
   const room = roomsData[roomId];
+  const isBookingMode = searchParams.get('mode') === 'book';
 
   if (!room || isNaN(roomId)) {
     return (
@@ -131,7 +133,12 @@ export default function RoomDetail() {
 
           {/* Room Info */}
           <div style={{ padding: '40px' }}>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '40px' }}>
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: isBookingMode ? '2fr 1fr' : '1fr',
+              gap: '40px',
+              alignItems: 'start'
+            }}>
               {/* Left Column - Details */}
               <div>
                 <h1 style={{ margin: '0 0 10px 0', fontSize: '32px', color: '#000' }}>{room.name}</h1>
@@ -199,7 +206,125 @@ export default function RoomDetail() {
                 </div>
               </div>
 
+              {/* Right Column - Booking Card (Only show if isBookingMode is true) */}
+              {isBookingMode && (
+                <div style={{
+                  backgroundColor: 'white',
+                  padding: '30px',
+                  borderRadius: '16px',
+                  boxShadow: '0 10px 30px rgba(0,0,0,0.1)',
+                  border: '1px solid #eee',
+                  position: 'sticky',
+                  top: '100px'
+                }}>
+                  <div style={{ marginBottom: '20px', textAlign: 'center' }}>
+                    <span style={{ fontSize: '16px', color: '#666' }}>ราคาเริ่มต้น</span>
+                    <div style={{ fontSize: '36px', fontWeight: '800', color: '#667eea' }}>
+                      ฿{room.price.toLocaleString()}
+                      <span style={{ fontSize: '16px', fontWeight: '500', color: '#999' }}>/เดือน</span>
+                    </div>
+                  </div>
 
+                  <div style={{ marginBottom: '25px' }}>
+                    <label style={{ display: 'block', marginBottom: '10px', fontWeight: '600', color: '#333' }}>จำนวนห้อง</label>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                      <button
+                        onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                        style={{
+                          width: '40px',
+                          height: '40px',
+                          borderRadius: '8px',
+                          border: '1px solid #ddd',
+                          background: 'white',
+                          cursor: 'pointer',
+                          fontSize: '18px',
+                          color: '#333'
+                        }}
+                      >
+                        -
+                      </button>
+                      <input
+                        type="number"
+                        value={quantity}
+                        readOnly
+                        style={{
+                          width: '60px',
+                          height: '40px',
+                          textAlign: 'center',
+                          border: '1px solid #ddd',
+                          borderRadius: '8px',
+                          fontSize: '16px',
+                          fontWeight: '600',
+                          color: '#000',
+                          backgroundColor: 'white'
+                        }}
+                      />
+                      <button
+                        onClick={() => setQuantity(quantity + 1)}
+                        style={{
+                          width: '40px',
+                          height: '40px',
+                          borderRadius: '8px',
+                          border: '1px solid #ddd',
+                          background: 'white',
+                          cursor: 'pointer',
+                          fontSize: '18px',
+                          color: '#333'
+                        }}
+                      >
+                        +
+                      </button>
+                    </div>
+                  </div>
+
+                  <div style={{ marginBottom: '25px', padding: '15px', background: '#f8f9fa', borderRadius: '8px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
+                      <span style={{ color: '#666' }}>ค่ามัดจำ</span>
+                      <span style={{ fontWeight: '600', color: '#333' }}>฿{(room.price * 2).toLocaleString()}</span>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
+                      <span style={{ color: '#666' }}>ค่าเช่าล่วงหน้า</span>
+                      <span style={{ fontWeight: '600', color: '#333' }}>฿{room.price.toLocaleString()}</span>
+                    </div>
+                    <div style={{ borderTop: '1px solid #ddd', margin: '10px 0' }}></div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '18px' }}>
+                      <strong style={{ color: '#333' }}>รวมแรกเข้า</strong>
+                      <strong style={{ color: '#667eea' }}>฿{(room.price * 3 * quantity).toLocaleString()}</strong>
+                    </div>
+                  </div>
+
+                  <button
+                    onClick={handleBook}
+                    style={{
+                      width: '100%',
+                      padding: '16px',
+                      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: '12px',
+                      fontSize: '18px',
+                      fontWeight: '700',
+                      cursor: 'pointer',
+                      transition: 'transform 0.2s, box-shadow 0.2s',
+                      boxShadow: '0 4px 15px rgba(102, 126, 234, 0.4)'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = 'translateY(-2px)';
+                      e.currentTarget.style.boxShadow = '0 8px 25px rgba(102, 126, 234, 0.5)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = 'translateY(0)';
+                      e.currentTarget.style.boxShadow = '0 4px 15px rgba(102, 126, 234, 0.4)';
+                    }}
+                  >
+                    จองห้องพัก
+                  </button>
+
+                  <p style={{ marginTop: '15px', fontSize: '12px', color: '#999', textAlign: 'center' }}>
+                    *ราคานี้ยังไม่รวมค่าน้ำและค่าไฟ
+                  </p>
+                </div>
+              )}
             </div>
           </div>
         </div>
