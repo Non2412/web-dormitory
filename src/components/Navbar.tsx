@@ -43,9 +43,9 @@ export default function Navbar() {
 
           <div className={styles.navLinks}>
             <Link href="/dormitory" className={styles.navLink}>Home</Link>
-            <Link href={currentUser ? "/book" : "/login"} className={styles.navLink}>รายการห้องพัก</Link>
+            <Link href={currentUser ? "/book" : "/login"} className={styles.navLink}>Rooms</Link>
             <Link href="/about" className={styles.navLink}>About</Link>
-            <Link href="/qr_check" className={styles.navLink}>OCR</Link>
+
 
             {currentUser ? (
               <div style={{ position: 'relative' }}>
