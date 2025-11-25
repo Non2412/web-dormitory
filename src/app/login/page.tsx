@@ -56,8 +56,8 @@ export default function Login() {
         console.log("Login success:", user);
         alert(`เข้าสู่ระบบสำเร็จ!\nยินดีต้อนรับคุณ ${user.fullName}`);
 
-        // TODO: Redirect to user home page
-        // router.push('/home');
+        // Redirect to dormitory page
+        router.push('/dormitory');
 
       } else {
         alert("อีเมลหรือรหัสผ่านไม่ถูกต้อง!");

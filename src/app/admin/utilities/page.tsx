@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import styles from "./utilities.module.css";
+import Sidebar from "../components/Sidebar";
 
 export default function UtilitiesPage() {
     const router = useRouter();
@@ -73,134 +74,139 @@ export default function UtilitiesPage() {
     }
 
     return (
-        <div className={styles.container}>
-            <div className={styles.header}>
-                <h1 className={styles.title}>จัดการค่าน้ำค่าไฟ</h1>
-                <button className={styles.backBtn} onClick={() => router.push("/admin/dashboard")}>
-                    ← กลับหน้าหลัก
-                </button>
-            </div>
-
-            <div className={styles.grid}>
-                {/* Rate Settings Section */}
-                <div className={styles.card}>
-                    <h2 className={styles.cardTitle}>ตั้งค่าอัตราค่าน้ำค่าไฟ</h2>
-
-                    <div className={styles.formGroup}>
-                        <label>อัตราค่าน้ำ (฿/หน่วย)</label>
-                        <input
-                            type="number"
-                            value={waterRate}
-                            onChange={(e) => setWaterRate(e.target.value)}
-                            className={styles.input}
-                            step="0.01"
-                        />
+        <>
+            <Sidebar />
+            <div className={styles.mainContent}>
+                <div className={styles.container}>
+                    <div className={styles.header}>
+                        <h1 className={styles.title}>จัดการค่าน้ำค่าไฟ</h1>
+                        <button className={styles.backBtn} onClick={() => router.push("/admin/dashboard")}>
+                            ← กลับหน้าหลัก
+                        </button>
                     </div>
 
-                    <div className={styles.formGroup}>
-                        <label>อัตราค่าไฟ (฿/หน่วย)</label>
-                        <input
-                            type="number"
-                            value={electricityRate}
-                            onChange={(e) => setElectricityRate(e.target.value)}
-                            className={styles.input}
-                            step="0.01"
-                        />
-                    </div>
+                    <div className={styles.grid}>
+                        {/* Rate Settings Section */}
+                        <div className={styles.card}>
+                            <h2 className={styles.cardTitle}>ตั้งค่าอัตราค่าน้ำค่าไฟ</h2>
 
-                    <button className={styles.saveBtn} onClick={saveRates}>
-                        บันทึกอัตรา
-                    </button>
+                            <div className={styles.formGroup}>
+                                <label>อัตราค่าน้ำ (฿/หน่วย)</label>
+                                <input
+                                    type="number"
+                                    value={waterRate}
+                                    onChange={(e) => setWaterRate(e.target.value)}
+                                    className={styles.input}
+                                    step="0.01"
+                                />
+                            </div>
+
+                            <div className={styles.formGroup}>
+                                <label>อัตราค่าไฟ (฿/หน่วย)</label>
+                                <input
+                                    type="number"
+                                    value={electricityRate}
+                                    onChange={(e) => setElectricityRate(e.target.value)}
+                                    className={styles.input}
+                                    step="0.01"
+                                />
+                            </div>
+
+                            <button className={styles.saveBtn} onClick={saveRates}>
+                                บันทึกอัตรา
+                            </button>
+                        </div>
+
+                        {/* Bill Calculator Section */}
+                        <div className={styles.card}>
+                            <h2 className={styles.cardTitle}>คำนวณค่าน้ำค่าไฟ</h2>
+
+                            <div className={styles.formGroup}>
+                                <label>เลือกห้อง</label>
+                                <select
+                                    value={selectedRoom}
+                                    onChange={(e) => setSelectedRoom(e.target.value)}
+                                    className={styles.input}
+                                >
+                                    {Array.from({ length: 50 }, (_, i) => i + 101).map((room) => (
+                                        <option key={room} value={room}>
+                                            ห้อง {room}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+
+                            <div className={styles.row}>
+                                <div className={styles.formGroup}>
+                                    <label>มิเตอร์น้ำก่อนหน้า</label>
+                                    <input
+                                        type="number"
+                                        value={prevWater}
+                                        onChange={(e) => setPrevWater(e.target.value)}
+                                        className={styles.input}
+                                        placeholder="0"
+                                    />
+                                </div>
+                                <div className={styles.formGroup}>
+                                    <label>มิเตอร์น้ำปัจจุบัน</label>
+                                    <input
+                                        type="number"
+                                        value={currentWater}
+                                        onChange={(e) => setCurrentWater(e.target.value)}
+                                        className={styles.input}
+                                        placeholder="0"
+                                    />
+                                </div>
+                            </div>
+
+                            <div className={styles.row}>
+                                <div className={styles.formGroup}>
+                                    <label>มิเตอร์ไฟก่อนหน้า</label>
+                                    <input
+                                        type="number"
+                                        value={prevElectricity}
+                                        onChange={(e) => setPrevElectricity(e.target.value)}
+                                        className={styles.input}
+                                        placeholder="0"
+                                    />
+                                </div>
+                                <div className={styles.formGroup}>
+                                    <label>มิเตอร์ไฟปัจจุบัน</label>
+                                    <input
+                                        type="number"
+                                        value={currentElectricity}
+                                        onChange={(e) => setCurrentElectricity(e.target.value)}
+                                        className={styles.input}
+                                        placeholder="0"
+                                    />
+                                </div>
+                            </div>
+
+                            <button className={styles.calculateBtn} onClick={calculateBill}>
+                                คำนวณ
+                            </button>
+
+                            {calculatedBill && (
+                                <div className={styles.result}>
+                                    <h3>ผลการคำนวณ - ห้อง {selectedRoom}</h3>
+                                    <div className={styles.resultRow}>
+                                        <span>น้ำ: {calculatedBill.waterUnits.toFixed(2)} หน่วย</span>
+                                        <strong>฿{calculatedBill.waterCost.toFixed(2)}</strong>
+                                    </div>
+                                    <div className={styles.resultRow}>
+                                        <span>ไฟ: {calculatedBill.electricityUnits.toFixed(2)} หน่วย</span>
+                                        <strong>฿{calculatedBill.electricityCost.toFixed(2)}</strong>
+                                    </div>
+                                    <div className={styles.resultTotal}>
+                                        <span>รวมทั้งหมด</span>
+                                        <strong>฿{calculatedBill.total.toFixed(2)}</strong>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    </div>
                 </div>
-
-                {/* Bill Calculator Section */}
-                <div className={styles.card}>
-                    <h2 className={styles.cardTitle}>คำนวณค่าน้ำค่าไฟ</h2>
-
-                    <div className={styles.formGroup}>
-                        <label>เลือกห้อง</label>
-                        <select
-                            value={selectedRoom}
-                            onChange={(e) => setSelectedRoom(e.target.value)}
-                            className={styles.input}
-                        >
-                            {Array.from({ length: 50 }, (_, i) => i + 101).map((room) => (
-                                <option key={room} value={room}>
-                                    ห้อง {room}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-
-                    <div className={styles.row}>
-                        <div className={styles.formGroup}>
-                            <label>มิเตอร์น้ำก่อนหน้า</label>
-                            <input
-                                type="number"
-                                value={prevWater}
-                                onChange={(e) => setPrevWater(e.target.value)}
-                                className={styles.input}
-                                placeholder="0"
-                            />
-                        </div>
-                        <div className={styles.formGroup}>
-                            <label>มิเตอร์น้ำปัจจุบัน</label>
-                            <input
-                                type="number"
-                                value={currentWater}
-                                onChange={(e) => setCurrentWater(e.target.value)}
-                                className={styles.input}
-                                placeholder="0"
-                            />
-                        </div>
-                    </div>
-
-                    <div className={styles.row}>
-                        <div className={styles.formGroup}>
-                            <label>มิเตอร์ไฟก่อนหน้า</label>
-                            <input
-                                type="number"
-                                value={prevElectricity}
-                                onChange={(e) => setPrevElectricity(e.target.value)}
-                                className={styles.input}
-                                placeholder="0"
-                            />
-                        </div>
-                        <div className={styles.formGroup}>
-                            <label>มิเตอร์ไฟปัจจุบัน</label>
-                            <input
-                                type="number"
-                                value={currentElectricity}
-                                onChange={(e) => setCurrentElectricity(e.target.value)}
-                                className={styles.input}
-                                placeholder="0"
-                            />
-                        </div>
-                    </div>
-
-                    <button className={styles.calculateBtn} onClick={calculateBill}>
-                        คำนวณ
-                    </button>
-
-                    {calculatedBill && (
-                        <div className={styles.result}>
-                            <h3>ผลการคำนวณ - ห้อง {selectedRoom}</h3>
-                            <div className={styles.resultRow}>
-                                <span>น้ำ: {calculatedBill.waterUnits.toFixed(2)} หน่วย</span>
-                                <strong>฿{calculatedBill.waterCost.toFixed(2)}</strong>
-                            </div>
-                            <div className={styles.resultRow}>
-                                <span>ไฟ: {calculatedBill.electricityUnits.toFixed(2)} หน่วย</span>
-                                <strong>฿{calculatedBill.electricityCost.toFixed(2)}</strong>
-                            </div>
-                            <div className={styles.resultTotal}>
-                                <span>รวมทั้งหมด</span>
-                                <strong>฿{calculatedBill.total.toFixed(2)}</strong>
-                            </div>
-                        </div>
-                    )}
-                </div>
             </div>
-        </div>
+        </>
     );
 }
