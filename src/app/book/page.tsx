@@ -31,7 +31,7 @@ export default function BookingPage() {
       if (response.success) {
         setRooms(response.data);
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Error fetching rooms:", err);
       setError("ไม่สามารถโหลดข้อมูลห้องพักได้");
     } finally {

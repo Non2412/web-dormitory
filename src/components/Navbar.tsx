@@ -69,10 +69,44 @@ export default function Navbar() {
                     background: 'white',
                     borderRadius: '8px',
                     boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
-                    minWidth: '180px',
+                    minWidth: '200px',
                     overflow: 'hidden',
                     zIndex: 1000
                   }}>
+                    <button
+                      onClick={() => {
+                        setShowUserMenu(false);
+                        // Redirect based on user role
+                        if (user?.role === 'ADMIN') {
+                          router.push('/admin/payments');
+                        } else {
+                          router.push('/my-payments');
+                        }
+                      }}
+                      style={{
+                        width: '100%',
+                        padding: '12px 16px',
+                        background: 'none',
+                        border: 'none',
+                        textAlign: 'left',
+                        cursor: 'pointer',
+                        fontSize: '14px',
+                        color: '#333',
+                        transition: 'background 0.2s',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px',
+                        borderBottom: '1px solid #f0f0f0'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.background = '#f5f5f5';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.background = 'none';
+                      }}
+                    >
+                      🧾 ตรวจสอบสลิป
+                    </button>
                     <button
                       onClick={handleLogout}
                       style={{

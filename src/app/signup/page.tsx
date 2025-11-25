@@ -55,9 +55,10 @@ export default function SignUp() {
       alert("สมัครสมาชิกสำเร็จ! กำลังไปหน้าห้องพัก...");
       router.push('/book');
 
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Error signing up:", err);
-      setError(err.message || "เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง");
+      const errorMessage = err instanceof Error ? err.message : "เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง";
+      setError(errorMessage);
     } finally {
       setIsLoading(false);
     }

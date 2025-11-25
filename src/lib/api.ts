@@ -57,6 +57,24 @@ export interface Payment {
     status: string;
 }
 
+export interface DashboardData {
+    totalRooms: number;
+    availableRooms: number;
+    occupiedRooms: number;
+    totalBookings: number;
+    pendingBookings: number;
+    confirmedBookings: number;
+    totalRevenue: number;
+    recentBookings: Booking[];
+}
+
+export interface DashboardStats {
+    bookingsThisMonth: number;
+    revenueThisMonth: number;
+    occupancyRate: number;
+    averageBookingDuration: number;
+}
+
 // Helper function to get auth token
 const getAuthToken = (): string | null => {
     if (typeof window === 'undefined') return null;
@@ -64,7 +82,7 @@ const getAuthToken = (): string | null => {
 };
 
 // Helper function to handle API errors
-const handleResponse = async (response: Response) => {
+const handleResponse = async <T>(response: Response): Promise<T> => {
     if (!response.ok) {
         let errorMessage = `HTTP error! status: ${response.status}`;
         try {
@@ -77,7 +95,7 @@ const handleResponse = async (response: Response) => {
             } else if (errorData.error) {
                 errorMessage = errorData.error;
             } else if (errorData.errors && Array.isArray(errorData.errors)) {
-                errorMessage = errorData.errors.map((e: any) => e.message || e).join(', ');
+                errorMessage = errorData.errors.map((e: unknown) => (e as { message: string }).message || e).join(', ');
             }
         } catch (e) {
             console.error('Failed to parse error response:', e);
@@ -96,10 +114,10 @@ class ApiClient {
         this.baseUrl = baseUrl;
     }
 
-    private async request(
+    private async request<T>(
         endpoint: string,
         options: RequestInit = {}
-    ): Promise<any> {
+    ): Promise<T> {
         const token = getAuthToken();
         const headers: Record<string, string> = {
             'Content-Type': 'application/json',
@@ -126,7 +144,7 @@ class ApiClient {
             headers,
         });
 
-        return handleResponse(response);
+        return handleResponse<T>(response);
     }
 
     // Auth APIs
@@ -137,7 +155,7 @@ class ApiClient {
         lastName: string;
         phone: string;
     }): Promise<AuthResponse> {
-        return this.request('/auth/register', {
+        return this.request<AuthResponse>('/auth/register', {
             method: 'POST',
             body: JSON.stringify(data),
         });
@@ -147,22 +165,22 @@ class ApiClient {
         email: string;
         password: string;
     }): Promise<AuthResponse> {
-        return this.request('/auth/login', {
+        return this.request<AuthResponse>('/auth/login', {
             method: 'POST',
             body: JSON.stringify(data),
         });
     }
 
     async getMe(): Promise<{ success: boolean; data: User }> {
-        return this.request('/auth/me');
+        return this.request<{ success: boolean; data: User }>('/auth/me');
     }
 
     async logout(): Promise<void> {
-        return this.request('/auth/logout', { method: 'POST' });
+        return this.request<void>('/auth/logout', { method: 'POST' });
     }
 
     async refreshToken(refreshToken: string): Promise<AuthResponse> {
-        return this.request('/auth/refresh', {
+        return this.request<AuthResponse>('/auth/refresh', {
             method: 'POST',
             body: JSON.stringify({ refreshToken }),
         });
@@ -182,11 +200,11 @@ class ApiClient {
         if (params?.limit) queryParams.append('limit', params.limit.toString());
 
         const query = queryParams.toString();
-        return this.request(`/rooms${query ? `?${query}` : ''}`);
+        return this.request<{ success: boolean; data: Room[] }>(`/rooms${query ? `?${query}` : ''}`);
     }
 
     async getRoom(id: string): Promise<{ success: boolean; data: Room }> {
-        return this.request(`/rooms/${id}`);
+        return this.request<{ success: boolean; data: Room }>(`/rooms/${id}`);
     }
 
     async createRoom(data: {
@@ -197,21 +215,21 @@ class ApiClient {
         price: number;
         status: string;
     }): Promise<{ success: boolean; data: Room }> {
-        return this.request('/rooms', {
+        return this.request<{ success: boolean; data: Room }>('/rooms', {
             method: 'POST',
             body: JSON.stringify(data),
         });
     }
 
     async updateRoom(id: string, data: Partial<Room>): Promise<{ success: boolean; data: Room }> {
-        return this.request(`/rooms/${id}`, {
+        return this.request<{ success: boolean; data: Room }>(`/rooms/${id}`, {
             method: 'PUT',
             body: JSON.stringify(data),
         });
     }
 
     async deleteRoom(id: string): Promise<void> {
-        return this.request(`/rooms/${id}`, { method: 'DELETE' });
+        return this.request<void>(`/rooms/${id}`, { method: 'DELETE' });
     }
 
     // Bookings APIs
@@ -224,11 +242,11 @@ class ApiClient {
         if (params?.status) queryParams.append('status', params.status);
 
         const query = queryParams.toString();
-        return this.request(`/bookings${query ? `?${query}` : ''}`);
+        return this.request<{ success: boolean; data: Booking[] }>(`/bookings${query ? `?${query}` : ''}`);
     }
 
     async getBooking(id: string): Promise<{ success: boolean; data: Booking }> {
-        return this.request(`/bookings/${id}`);
+        return this.request<{ success: boolean; data: Booking }>(`/bookings/${id}`);
     }
 
     async createBooking(data: {
@@ -236,30 +254,30 @@ class ApiClient {
         startDate: string;
         endDate: string;
     }): Promise<{ success: boolean; data: Booking }> {
-        return this.request('/bookings', {
+        return this.request<{ success: boolean; data: Booking }>('/bookings', {
             method: 'POST',
             body: JSON.stringify(data),
         });
     }
 
     async updateBooking(id: string, data: Partial<Booking>): Promise<{ success: boolean; data: Booking }> {
-        return this.request(`/bookings/${id}`, {
+        return this.request<{ success: boolean; data: Booking }>(`/bookings/${id}`, {
             method: 'PUT',
             body: JSON.stringify(data),
         });
     }
 
     async deleteBooking(id: string): Promise<void> {
-        return this.request(`/bookings/${id}`, { method: 'DELETE' });
+        return this.request<void>(`/bookings/${id}`, { method: 'DELETE' });
     }
 
     // Payments APIs
     async getPayments(): Promise<{ success: boolean; data: Payment[] }> {
-        return this.request('/payments');
+        return this.request<{ success: boolean; data: Payment[] }>('/payments');
     }
 
     async getPayment(id: string): Promise<{ success: boolean; data: Payment }> {
-        return this.request(`/payments/${id}`);
+        return this.request<{ success: boolean; data: Payment }>(`/payments/${id}`);
     }
 
     async createPayment(data: {
@@ -267,19 +285,19 @@ class ApiClient {
         amount: number;
         paymentMethod: string;
     }): Promise<{ success: boolean; data: Payment }> {
-        return this.request('/payments', {
+        return this.request<{ success: boolean; data: Payment }>('/payments', {
             method: 'POST',
             body: JSON.stringify(data),
         });
     }
 
     // Dashboard APIs
-    async getDashboard(): Promise<any> {
-        return this.request('/dashboard');
+    async getDashboard(): Promise<{ success: boolean; data: DashboardData }> {
+        return this.request<{ success: boolean; data: DashboardData }>('/dashboard');
     }
 
-    async getDashboardStats(): Promise<any> {
-        return this.request('/dashboard/stats');
+    async getDashboardStats(): Promise<{ success: boolean; data: DashboardStats }> {
+        return this.request<{ success: boolean; data: DashboardStats }>('/dashboard/stats');
     }
 }
 

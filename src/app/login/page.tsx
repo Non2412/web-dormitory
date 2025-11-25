@@ -33,9 +33,9 @@ export default function Login() {
         // Should not happen if login throws on error, but good for safety
         throw new Error("Login failed");
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Login error:", err);
-      setError(err.message || "อีเมลหรือรหัสผ่านไม่ถูกต้อง");
+      setError(err instanceof Error ? err.message : "อีเมลหรือรหัสผ่านไม่ถูกต้อง");
       setIsLoading(false);
     }
   };

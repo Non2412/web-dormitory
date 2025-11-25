@@ -8,12 +8,45 @@ import SlipVerifier from "./SlipVerifier";
 
 import { useAuth } from "@/contexts/AuthContext";
 
+interface DashboardStats {
+    totalRooms: number;
+    occupiedRooms: number;
+    availableRooms: number;
+    maintenanceRooms: number;
+    occupancyRate: number;
+    monthlyRevenue: number;
+    monthlyRevenueChange: number;
+    annualRevenue: number;
+    annualRevenueChange: number;
+    totalDue: number;
+    dueCount: number;
+}
+
+interface Payment {
+    id: string;
+    date: string;
+    roomNumber: string;
+    tenantName: string;
+    amount: number;
+    status: string;
+    paymentMethod: string;
+    bookingId: string;
+    slipUrl?: string;
+}
+
+interface Activity {
+    type: string;
+    detail: string;
+    time: string;
+}
+
 export default function AdminDashboard() {
     const router = useRouter();
     const { user, isAuthenticated, loading: authLoading } = useAuth();
-    const [stats, setStats] = useState<any>(null);
-    const [payments, setPayments] = useState<any[]>([]);
-    const [activities, setActivities] = useState<any[]>([]);
+
+    const [stats, setStats] = useState<DashboardStats | null>(null);
+    const [payments, setPayments] = useState<Payment[]>([]);
+    const [activities, setActivities] = useState<Activity[]>([]);
     const [dataLoading, setDataLoading] = useState(true);
 
     useEffect(() => {
@@ -25,14 +58,31 @@ export default function AdminDashboard() {
                 (async () => {
                     try {
                         const statsRes = await api.getDashboardStats();
-                        setStats(statsRes.data);
-                        const paymentsRes = await api.getPayments();
-                        setPayments(paymentsRes.data);
-                        // Example: fetch activities from /dashboard endpoint if available
+                        setStats(statsRes.data as unknown as DashboardStats);
+
+                        // Fetch dashboard data for activities
                         try {
                             const dashboardRes = await api.getDashboard();
-                            setActivities(dashboardRes.data.activities || []);
-                        } catch { }
+                            if (dashboardRes.data.recentBookings) {
+                                // Convert recent bookings to activities
+                                const acts: Activity[] = dashboardRes.data.recentBookings.slice(0, 5).map((booking: { status: string; startDate: string; room?: { roomNumber: string } }) => ({
+                                    type: 'การจอง',
+                                    detail: `ห้อง ${booking.room?.roomNumber || 'N/A'} - ${booking.status}`,
+                                    time: new Date(booking.startDate).toLocaleDateString('th-TH')
+                                }));
+                                setActivities(acts);
+                            }
+                        } catch (e) {
+                            console.error('Failed to fetch activities:', e);
+                        }
+
+                        // Fetch payments
+                        try {
+                            const paymentsRes = await api.getPayments();
+                            setPayments(paymentsRes.data as Payment[] || []);
+                        } catch (e) {
+                            console.error('Failed to fetch payments:', e);
+                        }
                     } catch (err) {
                         console.error("Dashboard API error:", err);
                     } finally {

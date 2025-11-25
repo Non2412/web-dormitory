@@ -4,7 +4,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
     const { id } = await params;
 
     // Mock data (same as in rooms route)
-    const rooms: Record<string, any> = {
+    const rooms: Record<string, unknown> = {
         '1': {
             id: '1',
             roomNumber: '101',
