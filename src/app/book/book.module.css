@@ -75,6 +75,14 @@
   font-weight: 600;
 }
 
+.maintenance {
+  background-color: #fff3cd;
+  color: #856404;
+  padding: 6px 14px;
+  border-radius: 16px;
+  font-weight: 600;
+}
+
 .table tr:hover {
   background: #fafafa;
   transition: 0.2s ease;
