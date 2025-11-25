@@ -85,6 +85,7 @@ export default function RoomDetail() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [quantity, setQuantity] = useState(1);
+  const isBookingMode = searchParams?.get('mode') === 'book';
 
   const idParam = params?.id as string;
   let room: Room | undefined = undefined;

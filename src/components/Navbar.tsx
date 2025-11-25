@@ -29,8 +29,7 @@ export default function Navbar() {
 
           <div className={styles.navLinks}>
             <Link href="/dormitory" className={styles.navLink}>Home</Link>
-            <Link href={isAuthenticated ? "/book" : "/login"} className={styles.navLink}>รายการห้องพัก</Link>
-            <Link href={currentUser ? "/book" : "/login"} className={styles.navLink}>Rooms</Link>
+            <Link href={isAuthenticated ? "/book" : "/login"} className={styles.navLink}>Rooms</Link>
             <Link href="/about" className={styles.navLink}>About</Link>
 
 
@@ -59,7 +58,7 @@ export default function Navbar() {
                     e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
                   }}
                 >
-                  👤 {user.firstName} {user.lastName} ▼
+                  👤 {user?.firstName} {user?.lastName} ▼
                 </button>
                 {showUserMenu && (
                   <div style={{
