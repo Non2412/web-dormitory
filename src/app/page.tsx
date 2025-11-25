@@ -12,24 +12,7 @@ export default function Home() {
   return (
     <div className={styles.container}>
       {/* Navigation Bar */}
-      <nav className={styles.navbar}>
-        <div className={styles.navContent}>
-          <div className={styles.logo}>
-            <h2>ระบบจัดการหอพัก</h2>
-            <p>Dormitory Management System</p>
-          </div>
-          <div className={styles.navLinks}>
-            <Link href="/" className={styles.navLink}>Home</Link>
-            <Link href="/book" className={styles.navLink}>รายการห้องพัก</Link>
-            <Link href="/about" className={styles.navLink}>About</Link>
-            <Link href="/contact" className={styles.navLink}>Contact</Link>
-            <Link href="/qr_check" className={styles.navLink}>ตรวจสอบ QR</Link>
-            <Link href="/login" className={styles.loginButton}>
-              Log In
-            </Link>
-          </div>
-        </div>
-      </nav>
+      <Navbar />
 
       {/* Hero Section */}
       <section className={styles.hero}>

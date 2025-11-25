@@ -2,11 +2,19 @@
 
 import Navbar from "@/components/Navbar";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import styles from "./book.module.css";
 
 export default function BookingPage() {
   const router = useRouter();
-  
+
+  useEffect(() => {
+    const user = localStorage.getItem("currentUser");
+    if (!user) {
+      router.push("/login");
+    }
+  }, [router]);
+
   const rooms = [
     {
       _id: "1",
@@ -73,7 +81,7 @@ export default function BookingPage() {
                 <td>{room.size}</td>
                 <td>{room.priceRange}</td>
                 <td>{room.daily}</td>
-                <td 
+                <td
                   className={styles.link}
                   onClick={() => handleBooking(room._id)}
                   style={{ cursor: 'pointer' }}

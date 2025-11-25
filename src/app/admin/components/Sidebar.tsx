@@ -18,6 +18,7 @@ export default function Sidebar() {
         { name: "ค่าน้ำค่าไฟ", path: "/admin/utilities", icon: "⚡" },
         { name: "ห้องพัก", path: "/admin/rooms", icon: "🏠" },
         { name: "ผู้เช่า", path: "/admin/tenants", icon: "👥" },
+        { name: "ประวัติการชำระเงิน", path: "/admin/payments", icon: "📝" },
     ];
 
     return (
